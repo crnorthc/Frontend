@@ -1,1 +1,1 @@
-export {};
+export const CREATING_USER = "CREATING_USER"

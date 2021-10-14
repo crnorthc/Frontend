@@ -5,10 +5,8 @@ import rootReducer from '../store/reducers'
 
 const initialState = {}
 
-const store = createStore(
+export const store =  createStore(
         rootReducer, 
         initialState,
         composeWithDevTools(applyMiddleware(thunkMiddleware))
     )
-
-export default store
