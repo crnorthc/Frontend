@@ -1,32 +1,30 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import Link from "next/link"
+import Router from "next/router"
 import React, { useState } from "react"
 
 // State Stuff
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
-import { createUser } from "../store/actions/auth"
+import { login, loadUser } from "../store/actions/auth"
 
 const Login: NextPage = (props: any) => {
-	const [first_name, setfirstName] = useState("")
-	const [last_name, setlastName] = useState("")
 	const [username, setUsername] = useState("")
-	const [phone, setPhone] = useState("")
 	const [password, setPassword] = useState("")
-	const [confirm, setConfirm] = useState("")
 
 	Login.propTypes = {
-        createUser: PropTypes.func.isRequired,
+		loadUser: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
+		logged_in: PropTypes.bool
     }
 
 	const handleSubmit = () => {
-		if (password !== confirm) {
-			alert('passwords must match!')
-		}
-		const info = {first_name, last_name, password, phone, username}
+		props.login(username, password)
+	}
 
-		props.createUser(info)
+	if (props.logged_in) {
+		console.log("should be good")
+		props.loadUser(username)
 	}
 
 	return (
@@ -63,6 +61,8 @@ const Login: NextPage = (props: any) => {
 	)
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state: any) => ({
+	logged_in: state.auth.logged_in
+})
 
-export default connect(mapStateToProps, { createUser })(Login)
+export default connect(mapStateToProps, { login, loadUser })(Login)

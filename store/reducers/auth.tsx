@@ -2,13 +2,23 @@ import {
     CREATING_USER,
     CREATED_USER,
     SIGNUP_FAIL,
+
     TEXT_SENT,
     CONFIRMING_CODE,
     CONFIRMED_CODE,
     CONFIRM_FAIL,
+    
     FINDING_USER,
     FOUND_USER,
-    NO_USER_FOUND
+    NO_USER_FOUND,
+
+    LOGGING_IN,
+    LOGGED_IN,
+    LOGIN_FAIL,
+
+    USER_LOADING,
+    USER_LOADED,
+    NO_USER
  } from '../types'
 
 const initialState = {
@@ -23,6 +33,7 @@ const initialState = {
     finding_user: false,
     found_user: false,
     no_user_found: false,
+    logged_in: false,
     error: ''
 }
 
@@ -86,6 +97,11 @@ export default function (state = initialState, action: any) {
             ...state,
             no_user_found: true,
             finding_user: false
+        }
+    case LOGGED_IN:
+        return {
+            ...state,
+            logged_in: true
         }
     default:
         return state
