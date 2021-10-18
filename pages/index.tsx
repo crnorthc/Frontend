@@ -6,12 +6,10 @@ import React, { useState } from "react"
 // State Stuff
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
-import { loadUser } from "../store/actions/auth"
 
 const Home: NextPage = (props: any) => {
 
 	Home.propTypes = {
-		loadUser: PropTypes.func.isRequired,
 		logged_in: PropTypes.bool,
 		is_admin: PropTypes.bool
     }
@@ -265,4 +263,4 @@ const mapStateToProps = (state: any) => ({
 	is_admin: state.admin.is_admin
 })
 
-export default connect(mapStateToProps, { loadUser })(Home)
+export default connect(mapStateToProps)(Home)

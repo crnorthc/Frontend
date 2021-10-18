@@ -4,7 +4,9 @@ import {
 
     USER_LOADING,
     USER_LOADED,
-    NO_USER
+    NO_USER,
+    
+    TEXT_SENT
  } from '../types'
 
 const initialState = {
@@ -18,6 +20,11 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             phone: action.payload,
+        }
+    case TEXT_SENT:
+        return {
+            ...state,
+            phone: action.payload
         }
     case LOGGED_IN:
         return {

@@ -18,7 +18,8 @@ import {
 
     USER_LOADING,
     USER_LOADED,
-    NO_USER
+    NO_USER,
+    PASSWORD_CHANGED
  } from '../types'
 
 const initialState = {
@@ -35,6 +36,8 @@ const initialState = {
     found_user: false,
 
     logged_in: false,
+
+    password_changed: false,
     error: ''
 }
 
@@ -67,12 +70,11 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             confirm_fail: false,
-            sent_text: true
+            sent_text: false
         }
     case CONFIRMED_CODE:
         return {
             ...state,
-            sent_text: true,
             confirmed_code: true,
         }
     case CONFIRM_FAIL:
@@ -100,6 +102,11 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             logged_in: true
+        }
+    case PASSWORD_CHANGED:
+        return {
+            ...state,
+            password_changed: true
         }
     default:
         return state

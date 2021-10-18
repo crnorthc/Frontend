@@ -21,6 +21,8 @@ import {
     USER_LOADING,
     USER_LOADED,
     IS_ADMIN,
+
+    PASSWORD_CHANGED
  } from '../types'
 
  function getCookie() {
@@ -236,6 +238,35 @@ export const checkCookies = () => (dispatch: any) => {
         }
     }    
 }
+
+export const recoverPhone = (phone: string) => (dispatch: any) => {
+
+    dispatch({
+        type: TEXT_SENT,
+        payload: phone
+    })
+
+    const body = JSON.stringify({ phone })
+    const config: any = getConfig(false)
+
+    axios.post('http://127.0.0.1:8000/users/recover-phone', body, config)      
+}
+
+export const changePassword = (password: string, phone: string) => (dispatch: any) => {
+    
+    const config: any = getConfig(false)
+
+    const body = JSON.stringify({ password, phone })
+
+
+    axios.post('http://127.0.0.1:8000/users/change-password', body, config)
+    .then((res: any) => {
+        dispatch({
+            type: PASSWORD_CHANGED
+        })
+    })
+}
+
 
 /*
     Admin Functions

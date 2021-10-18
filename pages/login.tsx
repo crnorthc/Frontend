@@ -1,6 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import Router from "next/router"
+import Link from "next/link"
 import React, { useState } from "react"
 
 // State Stuff
@@ -56,6 +57,13 @@ const Login: NextPage = (props: any) => {
 								Signup
 							</a>
 							.
+						</div>
+						<div className="text-grey-dark mt-6 ">		
+							<Link href='/recover'>
+								<a className="no-underline ml-2 border-b border-blue text-blue">
+									Forgot your Password?
+								</a>
+							</Link>																			
 						</div>
 					</div>
 				</div>

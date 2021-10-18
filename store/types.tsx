@@ -22,6 +22,8 @@ export const USER_LOADING = "USER_LOADING"
 export const USER_LOADED = "USER_LOADED"
 export const NO_USER = "NO_USER"
 
+export const PASSWORD_CHANGED = "PASSWORD_CHANGED"
+
 
 
 
