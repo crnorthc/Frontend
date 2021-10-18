@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { 
     EVENT_START,
-    ERROR,
-    CREATED_GAME,
+    GAMES_LOADED
  } from '../types'
 
  function getCookie() {
@@ -35,30 +34,21 @@ function getConfig(withCookie: boolean) {
     }
 }
 
-
-export const createGame = (game: Game) => (dispatch: any) => {
+export const loadGames = () => (dispatch: any) => {
 
     const config: any = getConfig(true)
 
-    const body = JSON.stringify(game)
+    const body = JSON.stringify({})
 
     dispatch({
         type: EVENT_START
     })
 
-    axios.post('http://127.0.0.1:8000/game/create', body, config)
-        .then(res => {
+    axios.post('http://127.0.0.1:8000/game/load-all', body, config)
+        .then((res: any) => {
             dispatch({
-                type: CREATED_GAME,
-                payload: res.data
+                type: GAMES_LOADED,
+                payload: res.data.Success
             })
-        })
-        .catch((error: any) => {
-            if (error.response.status == 403) {
-                dispatch({
-                    type: ERROR,
-                    payload: error.response.data.Error
-                })
-            }
         })
 }

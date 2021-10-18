@@ -13,3 +13,12 @@ interface AdminSignup {
     password: string, 
     username: string
 }
+
+interface Game {
+    name: string,
+    league: string,
+    duration: string,
+    start: any,
+    split: string,
+    bet: any
+}

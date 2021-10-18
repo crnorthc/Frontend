@@ -34,7 +34,6 @@ const Confirm: NextPage = (props: any) => {
 		confirmPhone: PropTypes.func.isRequired,
 		phone: PropTypes.string,
 		sent_text: PropTypes.bool,
-		confirming_code: PropTypes.bool,
 		confirmed_code: PropTypes.bool,
 	}
 
@@ -71,7 +70,6 @@ const Confirm: NextPage = (props: any) => {
 const mapStateToProps = (state: any) => ({
 	phone: state.user.phone,
 	sent_text: state.auth.sent_text,
-	confirming_code: state.auth.confirming_code,
 	confirmed_code: state.auth.confirmed_code,
 })
 

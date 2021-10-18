@@ -1,87 +1,62 @@
 import { 
-    CREATING_USER,
+    EVENT_START,
+    ERROR,
+
     CREATED_USER,
-    SIGNUP_FAIL,
 
     TEXT_SENT,
-    CONFIRMING_CODE,
     CONFIRMED_CODE,
-    CONFIRM_FAIL,
     
     COOKIES_CHECKED,
     FOUND_USER,
 
-    LOGGING_IN,
     LOGGED_IN,
     IS_ADMIN,
-    LOGIN_FAIL,
 
-    USER_LOADING,
     USER_LOADED,
     NO_USER,
     PASSWORD_CHANGED
  } from '../types'
 
 const initialState = {
-    creating: false,
+    event_starting: false,
     created: false,
     signup_fail: false,
-
     sent_text: false,
-    confirming_code: false,
     confirmed_code: false,
-    confirm_fail: false,
-
     cookies_checked: false,
     found_user: false,
-
     logged_in: false,
-
     password_changed: false,
-    error: ''
+    error: false,
+    error_msg: ''
 }
 
 export default function (state = initialState, action: any) {
     switch (action.type) {
-    case CREATING_USER: 
+    case EVENT_START: 
         return {
             ...state,
             signup_fail: false,
-            creating: true
+            event_starting: true
         }
     case CREATED_USER:
         return {
             ...state,
-            creating: false,
-            created: true
-        }
-    case SIGNUP_FAIL:
-        return {
-            ...state,
-            signup_fail: true,
-            error: action.payload
+            event_starting: false,
+            created: true,
+            error: false,
+            error_msg: ''
         }
     case TEXT_SENT:
         return {
             ...state,
             sent_text: true
         }
-    case CONFIRMING_CODE:
-        return {
-            ...state,
-            confirm_fail: false,
-            sent_text: false
-        }
     case CONFIRMED_CODE:
         return {
             ...state,
             confirmed_code: true,
-        }
-    case CONFIRM_FAIL:
-        return {
-            ...state,
-            confirm_fail: true,
-            error: action.payload
         }
     case COOKIES_CHECKED:
         return {
@@ -107,6 +82,12 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             password_changed: true
+        }
+    case ERROR:
+        return {
+            ...state,
+            error: true,
+            error_msg: action.payload
         }
     default:
         return state

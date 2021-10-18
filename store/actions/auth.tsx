@@ -1,24 +1,18 @@
 import axios from 'axios'
-import { bindActionCreators } from 'redux'
 import { 
-    CREATING_USER,
+    EVENT_START,
+    ERROR,
     CREATED_USER,
-    SIGNUP_FAIL,
 
     TEXT_SENT,
-    CONFIRMING_CODE,
     CONFIRMED_CODE,
-    CONFIRM_FAIL,
 
     COOKIES_CHECKED,
     FOUND_USER,
     NO_USER,
 
-    LOGGING_IN,
     LOGGED_IN,
-    LOGIN_FAIL,
 
-    USER_LOADING,
     USER_LOADED,
     IS_ADMIN,
 
@@ -72,7 +66,7 @@ export const createUser = (user: Signup) => (dispatch: any) => {
     const body = JSON.stringify(user)
 
     dispatch({
-        type: CREATING_USER
+        type: EVENT_START
     })
 
     axios.post('http://127.0.0.1:8000/users/create', body, config)
@@ -85,7 +79,7 @@ export const createUser = (user: Signup) => (dispatch: any) => {
         .catch((error: any) => {
             if (error.response.status == 403) {
                 dispatch({
-                    type: SIGNUP_FAIL,
+                    type: ERROR,
                     payload: error.response.data.Error
                 })
             }
@@ -125,7 +119,7 @@ export const confirmPhone = (code: string, phone: string) => (dispatch: any) => 
     const body = JSON.stringify({code, phone})
 
     dispatch({
-        type: CONFIRMING_CODE
+        type: EVENT_START
     })
 
     axios.post('http://127.0.0.1:8000/users/confirm', body, config)
@@ -137,7 +131,7 @@ export const confirmPhone = (code: string, phone: string) => (dispatch: any) => 
     .catch((error: any) => {
         if (error.response.status == 403) {
             dispatch({
-                type: CONFIRM_FAIL,
+                type: ERROR,
                 payload: error.response.data.Error
             })
         }
@@ -151,7 +145,7 @@ export const login = (username: string, password: string, remember: boolean) => 
     const body = JSON.stringify({username, password, remember})
 
     dispatch({
-        type: LOGGING_IN
+        type: EVENT_START
     })
 
     axios.post('http://127.0.0.1:8000/users/login', body, config)
@@ -173,7 +167,7 @@ export const login = (username: string, password: string, remember: boolean) => 
         console.log(error.response)
         if (error.response.status == 403) {
             dispatch({
-                type: LOGIN_FAIL,
+                type: ERROR,
                 payload: error.response.data.Error
             })
         }
@@ -187,7 +181,7 @@ export const loadUser = (username: string) => (dispatch: any) => {
     const body = JSON.stringify({username})
 
     dispatch({
-        type: USER_LOADING
+        type: EVENT_START
     })
 
     axios.post('http://127.0.0.1:8000/users/load', body, config)
@@ -291,7 +285,7 @@ export const createAdmin = (admin: AdminSignup) => (dispatch: any) => {
         .catch((error: any) => {
             if (error.response.status == 403) {
                 dispatch({
-                    type: SIGNUP_FAIL,
+                    type: ERROR,
                     payload: error.response.data.Error
                 })
             }
