@@ -11,9 +11,8 @@ export const CONFIRMING_CODE = "CONFIRMING_CODE"
 export const CONFIRMED_CODE = "CONFIRMED_CODE"
 export const CONFIRM_FAIL = "CONFIRM_FAIL"
 
-export const FINDING_USER = "FINDING_USER"
+export const COOKIES_CHECKED = "COOKIES_CHECKED"
 export const FOUND_USER = "FOUND_USER"
-export const NO_USER_FOUND = "NO_USER_FOUND"
 
 export const LOGGING_IN = "LOGGING_IN"
 export const LOGGED_IN = "LOGGED_IN"
@@ -22,3 +21,12 @@ export const LOGIN_FAIL = "LOGIN_FAIL"
 export const USER_LOADING = "USER_LOADING"
 export const USER_LOADED = "USER_LOADED"
 export const NO_USER = "NO_USER"
+
+
+
+
+/*
+    Types for Admin
+*/
+
+export const IS_ADMIN = "IS_ADMIN"

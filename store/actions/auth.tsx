@@ -10,9 +10,9 @@ import {
     CONFIRMED_CODE,
     CONFIRM_FAIL,
 
-    FINDING_USER,
+    COOKIES_CHECKED,
     FOUND_USER,
-    NO_USER_FOUND,
+    NO_USER,
 
     LOGGING_IN,
     LOGGED_IN,
@@ -20,7 +20,7 @@ import {
 
     USER_LOADING,
     USER_LOADED,
-    NO_USER
+    IS_ADMIN,
  } from '../types'
 
  function getCookie() {
@@ -43,45 +43,29 @@ function getUID() {
     return cookie
 }
 
-export const loadUID = () => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
+function getConfig(withCookie: boolean) {
+    if (withCookie) {
+        return {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + getCookie()
+            }
         }
     }
-
-    const uid = getUID()
-
-    const body = JSON.stringify(uid)
-
-    dispatch({
-        type: FINDING_USER
-    })
-
-    axios.post('http://127.0.0.1:8000/users/find', body, config)
-        .then(res => {
-            dispatch({
-                type: FOUND_USER,
-                payload: res.data
-            })
-        })
-        .catch(error => {
-            if (error.response.status == 404) {
-                dispatch({
-                    type: NO_USER_FOUND
-                })
+    else {
+        return {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
             }
-        })
+        }
+    }
 }
 
 export const createUser = (user: Signup) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+
+    const config: any = getConfig(false)
 
     const body = JSON.stringify(user)
 
@@ -96,7 +80,7 @@ export const createUser = (user: Signup) => (dispatch: any) => {
                 payload: user.phone
             })
         })
-        .catch(error => {
+        .catch((error: any) => {
             if (error.response.status == 403) {
                 dispatch({
                     type: SIGNUP_FAIL,
@@ -107,12 +91,8 @@ export const createUser = (user: Signup) => (dispatch: any) => {
 }
 
 export const sendText = (phone: string) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+    
+    const config: any = getConfig(false)
 
     const body = JSON.stringify({phone})
 
@@ -124,12 +104,8 @@ export const sendText = (phone: string) => (dispatch: any) => {
 }
 
 export const resendText = (phone: string) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+    
+    const config: any = getConfig(false)
 
     const body = JSON.stringify({phone})
 
@@ -141,12 +117,8 @@ export const resendText = (phone: string) => (dispatch: any) => {
 }
 
 export const confirmPhone = (code: string, phone: string) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+    
+    const config: any = getConfig(false)
 
     const body = JSON.stringify({code, phone})
 
@@ -155,12 +127,12 @@ export const confirmPhone = (code: string, phone: string) => (dispatch: any) => 
     })
 
     axios.post('http://127.0.0.1:8000/users/confirm', body, config)
-    .then(res => {
+    .then((res: any) => {
         dispatch({
             type: CONFIRMED_CODE
         })
     })
-    .catch(error => {
+    .catch((error: any) => {
         if (error.response.status == 403) {
             dispatch({
                 type: CONFIRM_FAIL,
@@ -170,27 +142,33 @@ export const confirmPhone = (code: string, phone: string) => (dispatch: any) => 
     })
 }
 
-export const login = (username: string, password: string) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+export const login = (username: string, password: string, remember: boolean) => (dispatch: any) => {
+    
+    const config: any = getConfig(false)
 
-    const body = JSON.stringify({username, password})
+    const body = JSON.stringify({username, password, remember})
 
     dispatch({
         type: LOGGING_IN
     })
 
     axios.post('http://127.0.0.1:8000/users/login', body, config)
-    .then(res => {
-        dispatch({
-            type: LOGGED_IN
-        })
+    .then((res: any) => {
+        if (res.data.Super) {
+            dispatch({
+                type: IS_ADMIN,
+                payload: res.data.Success
+            })
+        }
+        else {
+            dispatch({
+                type: LOGGED_IN,
+                payload: res.data.Success
+            })
+        }
     })
-    .catch(error => {
+    .catch((error: any) => {
+        console.log(error.response)
         if (error.response.status == 403) {
             dispatch({
                 type: LOGIN_FAIL,
@@ -201,13 +179,8 @@ export const login = (username: string, password: string) => (dispatch: any) => 
 }
 
 export const loadUser = (username: string) => (dispatch: any) => {
-    const config = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ' + getCookie()
-        }
-    }
+
+    const config: any = getConfig(true)
 
     const body = JSON.stringify({username})
 
@@ -216,13 +189,13 @@ export const loadUser = (username: string) => (dispatch: any) => {
     })
 
     axios.post('http://127.0.0.1:8000/users/load', body, config)
-    .then(res => {
+    .then((res: any) => {
         dispatch({
             type: USER_LOADED,
             payload: res.data
         })
     })
-    .catch(error => {
+    .catch((error: any) => {
         if (error.response.status == 403) {
             dispatch({
                 type: NO_USER,
@@ -230,4 +203,66 @@ export const loadUser = (username: string) => (dispatch: any) => {
             })
         }
     })
+}
+
+export const checkCookies = () => (dispatch: any) => {
+
+    dispatch({
+        type: COOKIES_CHECKED
+    })
+
+    const body = JSON.stringify({})
+    if (getUID() == '') {
+        dispatch({
+            type: NO_USER
+        })
+    }
+    else {
+        if (getCookie() !== '') {
+            const config: any = getConfig(true)
+
+            axios.post('http://127.0.0.1:8000/users/load', body, config)
+            .then((res: any) => {
+                dispatch({
+                    type: USER_LOADED,
+                    payload: res.data
+                })
+            })  
+        }
+        else {
+            dispatch({
+                type: FOUND_USER
+            })
+        }
+    }    
+}
+
+/*
+    Admin Functions
+*/
+
+export const createAdmin = (admin: AdminSignup) => (dispatch: any) => {
+    const config = {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const body = JSON.stringify(admin)
+
+    axios.post('http://127.0.0.1:8000/users/create-admin', body, config)
+        .then((res: any) => {
+            dispatch({
+                type: CREATED_USER
+            })
+        })
+        .catch((error: any) => {
+            if (error.response.status == 403) {
+                dispatch({
+                    type: SIGNUP_FAIL,
+                    payload: error.response.data.Error
+                })
+            }
+        })
 }

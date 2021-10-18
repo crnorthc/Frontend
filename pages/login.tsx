@@ -11,6 +11,7 @@ import { login, loadUser } from "../store/actions/auth"
 const Login: NextPage = (props: any) => {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+	const [remember, setRemember] = useState(false)
 
 	Login.propTypes = {
 		loadUser: PropTypes.func.isRequired,
@@ -19,12 +20,11 @@ const Login: NextPage = (props: any) => {
     }
 
 	const handleSubmit = () => {
-		props.login(username, password)
+		props.login(username, password, remember)
 	}
 
 	if (props.logged_in) {
-		console.log("should be good")
-		props.loadUser(username)
+		Router.push('/')
 	}
 
 	return (
@@ -41,7 +41,10 @@ const Login: NextPage = (props: any) => {
 							<h1 className="mb-8 text-3xl text-center">Login</h1>			
 							<input type="text" className="block border border-grey-light w-full p-3 rounded mb-4" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />				
 							<input type="password" className="block border border-grey-light w-full p-3 rounded mb-4" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-
+							<div className="flex pb-8 items-center">
+								<input type="checkbox" onChange={() => setRemember(!remember)} className="w-5 h-5 mr-2"/>
+								<span className="text-m text-gray-700">Remember Me</span>
+							</div>
 							<button onClick={() => handleSubmit()} type="submit" className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1">
 								Login
 							</button>

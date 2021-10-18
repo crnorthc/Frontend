@@ -8,12 +8,12 @@ import {
     CONFIRMED_CODE,
     CONFIRM_FAIL,
     
-    FINDING_USER,
+    COOKIES_CHECKED,
     FOUND_USER,
-    NO_USER_FOUND,
 
     LOGGING_IN,
     LOGGED_IN,
+    IS_ADMIN,
     LOGIN_FAIL,
 
     USER_LOADING,
@@ -24,15 +24,16 @@ import {
 const initialState = {
     creating: false,
     created: false,
-    phone: null,
     signup_fail: false,
+
     sent_text: false,
     confirming_code: false,
     confirmed_code: false,
     confirm_fail: false,
-    finding_user: false,
+
+    cookies_checked: false,
     found_user: false,
-    no_user_found: false,
+
     logged_in: false,
     error: ''
 }
@@ -49,8 +50,7 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             creating: false,
-            created: true,
-            phone: action.payload,
+            created: true
         }
     case SIGNUP_FAIL:
         return {
@@ -81,24 +81,22 @@ export default function (state = initialState, action: any) {
             confirm_fail: true,
             error: action.payload
         }
-    case FINDING_USER:
+    case COOKIES_CHECKED:
         return {
             ...state,
-            finding_user: true
+            cookies_checked: true
         }
     case FOUND_USER:
         return {
             ...state,
-            found_user: true,
-            finding_user: false
-        }
-    case NO_USER_FOUND:
-        return {
-            ...state,
-            no_user_found: true,
-            finding_user: false
+            found_user: true
         }
     case LOGGED_IN:
+        return {
+            ...state,
+            logged_in: true
+        }
+    case IS_ADMIN:
         return {
             ...state,
             logged_in: true
