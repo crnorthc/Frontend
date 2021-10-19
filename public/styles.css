@@ -2,203 +2,208 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 .glory {
-    font-family: "Glory", sans-serif !important;
+ font-family: "Glory", sans-serif !important;
 }
 
 .poppins {
-    font-family: "Poppins", sans-serif;
+ font-family: "Poppins", sans-serif;
 }
 
-
 .showcase {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: #1e292a;
-    overflow: hidden;
+ position: relative;
+ width: 100%;
+ height: 100vh;
+ background: #1e292a;
+ overflow: hidden;
+}
+
+.signup-shadow {
+ box-shadow: 0px 5px 0px #805e00;
+}
+
+.login-shadow {
+ box-shadow: 0px 5px 0px #006b83;
 }
 
 .follow-us img {
-    padding: 0px 10px;
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
+ padding: 0px 10px;
+ transition: transform 0.2s ease-in-out;
+ cursor: pointer;
 }
 .follow-us img:hover {
-    transform: scale(1.2);
+ transform: scale(1.2);
 }
 
 .moving-chart {
-    animation: chartAnimate 20s linear infinite;
+ animation: chartAnimate 20s linear infinite;
 }
 
 @keyframes chartAnimate {
-    0% {
-        transform: translateY(0);
-    }
+ 0% {
+  transform: translateY(0);
+ }
 
-    100% {
-        transform: translateY(-14.151%);
-    }
+ 100% {
+  transform: translateY(-14.151%);
+ }
 }
 
 .chart-width {
-    width: 2px;
+ width: 2px;
 }
 .chart-height {
-    height: 2px;
+ height: 2px;
 }
 
 .token {
-    position: absolute;
-    cursor: default;
-    animation: tokenAnimate 180s linear infinite;
-    transition: background-color 0.2s linear;
+ position: absolute;
+ cursor: default;
+ animation: tokenAnimate 180s linear infinite;
+ transition: background-color 0.2s linear;
 }
 
 .tokenCont {
-    overflow: hidden;
+ overflow: hidden;
 }
-
 
 /* Ocean */
 
 section .ocean {
-    position: absolute;
-    z-index: 0 !important;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: #00a2c7;
-    background-size: 1000px 100px;
-    filter: blur(2px);
+ position: absolute;
+ z-index: 0 !important;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 70px;
+ background: #00a2c7;
+ background-size: 1000px 100px;
+ filter: blur(2px);
 }
 
 section .ocean-front {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    background: #00c2ef;
-    background-size: 1000px 100px;
-    z-index: 6 !important;
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 10px;
+ background: #00c2ef;
+ background-size: 1000px 100px;
+ z-index: 6 !important;
 }
 
 section .wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: url(wavey.png);
-    background-size: 1000px 100px;
-    filter: blur(2px);
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ background: url(wavey.png);
+ background-size: 1000px 100px;
+ filter: blur(2px);
 }
 
 section .wave.wave1 {
-    animation: animate 45s linear infinite;
-    z-index: 3 !important;
-    opacity: 1;
-    animation-delay: 0s;
-    bottom: 33px;
-    height: 70px;
+ animation: animate 45s linear infinite;
+ z-index: 3 !important;
+ opacity: 1;
+ animation-delay: 0s;
+ bottom: 33px;
+ height: 70px;
 }
 
 section .wave.wave2 {
-    animation: animate2 30s linear infinite;
-    z-index: 4 !important;
-    opacity: 1;
-    animation-delay: -7s;
-    bottom: 22px;
-    height: 80px;
+ animation: animate2 30s linear infinite;
+ z-index: 4 !important;
+ opacity: 1;
+ animation-delay: -7s;
+ bottom: 22px;
+ height: 80px;
 }
 
 section .wave.wave3 {
-    animation: animate3 35s linear infinite;
-    z-index: 5 !important;
-    opacity: 1;
-    animation-delay: -2s;
-    bottom: 11px;
-    height: 90px;
+ animation: animate3 35s linear infinite;
+ z-index: 5 !important;
+ opacity: 1;
+ animation-delay: -2s;
+ bottom: 11px;
+ height: 90px;
 }
 
 section .wave.wave4 {
-    animation: animate4 30s linear infinite;
-    z-index: 6 !important;
-    opacity: 1;
-    animation-delay: -5s;
-    bottom: 0px;
-    height: 100px;
+ animation: animate4 30s linear infinite;
+ z-index: 6 !important;
+ opacity: 1;
+ animation-delay: -5s;
+ bottom: 0px;
+ height: 100px;
 }
 
 section .low-1 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 130px;
-    background: rgba(146, 146, 146, 0.4);
-    filter: blur(10px);
-    background-size: 1000px 100px;
-    z-index: 3 !important;
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 130px;
+ background: rgba(146, 146, 146, 0.4);
+ filter: blur(10px);
+ background-size: 1000px 100px;
+ z-index: 3 !important;
 }
 
 section .low-2 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 130px;
-    background: rgba(146, 146, 146, 0.3);
-    filter: blur(20px);
-    background-size: 1000px 100px;
-    z-index: 4 !important;
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 130px;
+ background: rgba(146, 146, 146, 0.3);
+ filter: blur(20px);
+ background-size: 1000px 100px;
+ z-index: 4 !important;
 }
 section .low-3 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 130px;
-    background: rgba(146, 146, 146, 0.2);
-    filter: blur(20px);
-    background-size: 1000px 100px;
-    z-index: 5 !important;
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 130px;
+ background: rgba(146, 146, 146, 0.2);
+ filter: blur(20px);
+ background-size: 1000px 100px;
+ z-index: 5 !important;
 }
-
 
 @keyframes animate {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: 1000px;
-    }
+ 0% {
+  background-position-x: 0;
+ }
+ 100% {
+  background-position-x: 1000px;
+ }
 }
-   
+
 @keyframes animate2 {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: -1000px;
-    }
+ 0% {
+  background-position-x: 0;
+ }
+ 100% {
+  background-position-x: -1000px;
+ }
 }
 
 @keyframes animate3 {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: 1000px;
-    }
+ 0% {
+  background-position-x: 0;
+ }
+ 100% {
+  background-position-x: 1000px;
+ }
 }
 
 @keyframes animate4 {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: -1000px;
-    }
+ 0% {
+  background-position-x: 0;
+ }
+ 100% {
+  background-position-x: -1000px;
+ }
 }

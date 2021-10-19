@@ -1,178 +1,91 @@
-import type { NextPage } from "next"
-import Head from "next/head"
-import Router from "next/router"
-import React, { useState } from "react"
+import type { NextPage } from "next";
+import Head from "next/head";
+import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 // State Stuff
-import { connect } from "react-redux"
-import PropTypes from 'prop-types'
-import { loadUser } from "../store/actions/auth"
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { loadUser } from "../store/actions/auth";
 
 const Home: NextPage = (props: any) => {
+ Home.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  logged_in: PropTypes.bool,
+  is_admin: PropTypes.bool,
+ };
 
-	Home.propTypes = {
-		loadUser: PropTypes.func.isRequired,
-		logged_in: PropTypes.bool,
-		is_admin: PropTypes.bool
-    }
+ return (
+  <div>
+   <Head>
+    <title>Vapur</title>
+    <link rel='icon' type='image/svg' href='/vapur.svg' />
+   </Head>
 
-
-	return (
-		<div>
-			<Head>
-				<title>Create Next App</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-
-			<main>
-				<div className="tokenCont"></div>								
-				<div className="fixed w-full z-20">
-					<div
-						className="
-							home-nav
+   <main>
+    <div className='relative w-full h-screen bg-dark overflow-hidden'>
+     <div className='fixed w-full z-20 l-0'>
+      <div
+       className='
+							
 							relative
 							p-5
-							flex flex-col
-							sm:flex-row
 							items-center
 							justify-between
-							"
-					>
+							'
+      >
+       <div>
+        <img className='p-2 w-28 hidden sm:block' src='/FinalLogo.svg' alt='' />
+        <img className='p-2 w-28 sm:hidden' src='/FinalLogo.svg' alt='' />
+       </div>
+      </div>
+     </div>
+     <div className='container'>
+      <div className='flex items-center justify-center h-screen w-full'>
+       <div
+        className='
+							grid grid-cols-12 gap-0
+							w-full
 						
-						<div>
-							<img className="w-20 hidden sm:block" src="/FinalLogo.svg" alt="" />
-							<img className="w-20 sm:hidden" src="/FinalLogo.svg" alt="" />
-						</div>
-						<div className="space-x-1 sm:space-x-4 text-sm pt-2 sm:pt-0 sm:text-xl text-light">
-						{props.logged_in ? 
-							props.is_admin ?
-								<button className="transition-colors duration-100 hover:text-primary glory" onClick={() => Router.push("/admin")}>
-									Admin
-								</button>
-								:
-								<button className="transition-colors duration-100 hover:text-primary glory" onClick={() => Router.push("/signup")}>
-									Profile
-								</button>
-							:
-							<div>
-								<button className="transition-colors duration-100 hover:text-primary glory" onClick={() => Router.push('/signup')}>
-									Signup
-								</button>
-								<button className="transition-colors duration-100 hover:text-primary glory" onClick={() => Router.push('/login')}>
-									Login
-								</button>
-							</div>
-						}							
-						</div>
-					</div>
-				</div>
-				<div className="showcase">
-					<div
-						className="
-							flex
-							items-center
-							justify-center
-							flex-col
-							h-screen
-							p-2
-							space-y-3
-							sm:space-y-6
-							"
-					>
-						<h1 className="text-light text-5xl sm:text-8xl text-center z-10 px-4 glory">
-							May The Best
-							<br />
-							Investor Win!
-						</h1>
-						<p
-							className="
-								text-light
-								poppins
-								text-md
-								sm:text-2xl
-								text-center
-								max-w-3xl
-								z-10
-								px-4
-								"
-						>
-							Vapur is the fantasy football of the stock and crypto markets. Players compete in wagered tournaments by predicting which stocks and cryptocurrencies will perform the best in an allotted amount of time.
-						</p>
-						<div className="flex items-center justify-end pt-0 z-10 space-x-5 sm:space-x-10">
-							<a
-								className="
-									w-7
-									sm:w-10
-									h-7
-									sm:h-10
-									transition
-									duration-150
-									ease-in-out
-									transform
-									hover:scale-125
-									"
-								href="https://t.me/joinchat/haNcc0MiOx4zMDNh"
-								target="_blank"
-							>
-								<img src="/001-telegram.svg" alt="" />
-							</a>
-							<a
-								className="
-									w-7
-									sm:w-10
-									h-7
-									sm:h-10
-									transition
-									duration-150
-									ease-in-out
-									transform
-									hover:scale-125
-									"
-								href="https://www.instagram.com/vapurofficial/"
-								target="_blank"
-							>
-								<img src="/002-instagram.svg" alt="" />
-							</a>
+							'
+       >
+        <div className='col-span-12 lg:col-span-5 flex justify-center items-center'>
+         <div className='w-40 sm:w-64 lg:w-96 block pb-0 sm:pb-5 lg:pb-0'>
+          <Image
+           className='z-10'
+           height={400}
+           width={400}
+           layout='responsive'
+           src='/glow-vapur-token.svg'
+           alt=''
+          />
+         </div>
+        </div>
 
-							<a
-								className="
-									w-7
-									sm:w-10
-									h-7
-									sm:h-10
-									transition
-									duration-150
-									ease-in-out
-									transform
-									hover:scale-125
-									"
-								href="https://twitter.com/VapurOfficial"
-								target="_blank"
-							>
-								<img src="/004-twitter.svg" alt="" />
-							</a>
-							<a
-								className="
-									w-7
-									sm:w-10
-									h-7
-									sm:h-10
-									transition
-									duration-150
-									ease-in-out
-									transform
-									hover:scale-125
-									"
-								href="https://www.linkedin.com/company/vapur"
-								target="_blank"
-							>
-								<img src="/005-linkedin.svg" alt="" />
-							</a>
-						</div>
-					</div>
+        <div className='col-span-12 lg:col-span-7 flex flex-col justify-center items-center'>
+         <h1 className='text-light text-3xl sm:text-5xl text-center z-10 px-4 glory'>
+          May The Best Investor Win!
+         </h1>
+         <div className='flex flex-col justify-center items-center pt-5 sm:pt-16'>
+          <Link href='/signup'>
+           <a className='z-10 w-60 sm:w-96 p-2 mb-4 bg-primary rounded-2xl text-light  text-center text-xl sm:text-3xl glory transition duration-100 ease-in-out transform hover:scale-105 signup-shadow'>
+            Get Started
+           </a>
+          </Link>
+          <Link href='/login'>
+           <a className='z-10 w-60 sm:w-96 p-2 bg-secondary rounded-2xl text-light text-center text-xl sm:text-3xl  glory transition duration-100 ease-in-out transform hover:scale-105 login-shadow'>
+            I Already Have an Account
+           </a>
+          </Link>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
 
-					<div
-						className="
+     <div
+      className='
 							absolute
 							w-full
 							h-screen
@@ -181,33 +94,33 @@ const Home: NextPage = (props: any) => {
 							flex
 							items-center
 							justify-evenly
-							"
-					>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen"></div>
+							'
+     >
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen'></div>
 
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-						<div className="z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block"></div>
-					</div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+      <div className='z-0 bg-medium opacity-30 chart-width h-screen hidden sm:block'></div>
+     </div>
 
-					<div
-						className="
+     <div
+      className='
 							moving-chart
 							absolute
 							w-full
@@ -217,52 +130,52 @@ const Home: NextPage = (props: any) => {
 							flex flex-col
 							items-center
 							justify-between
-							"
-					>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-						<div className="z-0 bg-medium opacity-30 w-full chart-height"></div>
-					</div>
+							'
+     >
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+      <div className='z-0 bg-medium opacity-30 w-full chart-height'></div>
+     </div>
 
-					<section>
-						<div className="ocean"></div>
-						<div className="ocean-front"></div>
-						<div className="wave wave1"></div>
-						<div className="wave wave2"></div>
-						<div className="wave wave3"></div>
-						<div className="wave wave4"></div>
-						<div className="low-1"></div>
-						<div className="low-2"></div>
-						<div className="low-3"></div>
-					</section>
-				</div>
-			</main>
-		</div>
-	)
-}
+     <section>
+      <div className='ocean'></div>
+      <div className='ocean-front'></div>
+      <div className='wave wave1'></div>
+      <div className='wave wave2'></div>
+      <div className='wave wave3'></div>
+      <div className='wave wave4'></div>
+      <div className='low-1'></div>
+      <div className='low-2'></div>
+      <div className='low-3'></div>
+     </section>
+    </div>
+   </main>
+  </div>
+ );
+};
 
 const mapStateToProps = (state: any) => ({
-	logged_in: state.auth.logged_in,
-	is_admin: state.admin.is_admin
-})
+ logged_in: state.auth.logged_in,
+ is_admin: state.admin.is_admin,
+});
 
-export default connect(mapStateToProps, { loadUser })(Home)
+export default connect(mapStateToProps, { loadUser })(Home);
