@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Script from 'next/script'
 import Image from "next/image"
-import tokens from "../public/tokens"
+import '../public/tokens'
 
 // State Stuff
 import { connect } from "react-redux"
@@ -156,7 +156,7 @@ const Home: NextPage = (props: any) => {
 					</section>
 				</div>
 			</main>
-            <Script src={tokens} strategy='lazyOnload'/>
+            <Script src='../public/tokens' strategy='lazyOnload'/>
 		</div>
 	)
 }

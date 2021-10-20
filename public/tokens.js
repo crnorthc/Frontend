@@ -4,7 +4,7 @@ function createToken() {
     let size = Math.random() * 50;
     token.className = "token";
     token.style.borderRadius = 100 + "%";
-    token.style.zIndex = 6;
+    token.style.zIndex = '6';
     token.style.background = "rgb(63, 63, 63)";
     token.src = "vapur.svg";
     token.style.padding = "5px";
