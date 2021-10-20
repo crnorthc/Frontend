@@ -156,7 +156,7 @@ const Home: NextPage = (props: any) => {
 					</section>
 				</div>
 			</main>
-                <Script src={tokens} strategy='lazyOnload'/>
+            <Script src={tokens} strategy='lazyOnload'/>
 		</div>
 	)
 }

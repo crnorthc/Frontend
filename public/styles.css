@@ -238,16 +238,16 @@ section .low-3 {
     }
    
     10% {
-     opacity: 0.3;
+     opacity: 0.5;
      filter: blur(0px);
     }
    
     80% {
-     opacity: 0.3;
+     opacity: 0.5;
     }
    
     100% {
      transform: scale(1) translateY(-15000%) rotate(0deg);
-     opacity: 0.3;
+     opacity: 0.5;
     }
    }

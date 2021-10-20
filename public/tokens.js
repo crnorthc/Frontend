@@ -22,4 +22,4 @@ function createToken() {
     }, 200000);
    }
 
-setInterval(createToken, 2500);
+setInterval(createToken, 10000);
