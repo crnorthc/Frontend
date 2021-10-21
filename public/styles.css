@@ -17,12 +17,16 @@
  overflow: hidden;
 }
 
-.signup-shadow {
+.primary-shadow {
  box-shadow: 0px 5px 0px #805e00;
 }
 
-.login-shadow {
+.secondary-shadow {
  box-shadow: 0px 5px 0px #006b83;
+}
+
+.medium-shadow-big {
+ box-shadow: 0px 13px 0px #0f1415ff;
 }
 
 .follow-us img {
@@ -56,9 +60,9 @@
 }
 
 .token {
- position: absolute;
- cursor: default;
- animation: tokenAnimate 180s linear infinite;
+ bottom: 0;
+ z-index: 6;
+ animation: tokenAnimate 10s linear infinite;
  transition: background-color 0.2s linear;
 }
 
@@ -102,7 +106,7 @@ section .wave {
 }
 
 section .wave.wave1 {
- animation: animate 45s linear infinite;
+ animation: animate 100s linear infinite;
  z-index: 3 !important;
  opacity: 1;
  animation-delay: 0s;
@@ -111,7 +115,7 @@ section .wave.wave1 {
 }
 
 section .wave.wave2 {
- animation: animate2 30s linear infinite;
+ animation: animate2 90s linear infinite;
  z-index: 4 !important;
  opacity: 1;
  animation-delay: -7s;
@@ -120,7 +124,7 @@ section .wave.wave2 {
 }
 
 section .wave.wave3 {
- animation: animate3 35s linear infinite;
+ animation: animate3 80s linear infinite;
  z-index: 5 !important;
  opacity: 1;
  animation-delay: -2s;
@@ -129,7 +133,7 @@ section .wave.wave3 {
 }
 
 section .wave.wave4 {
- animation: animate4 30s linear infinite;
+ animation: animate4 70s linear infinite;
  z-index: 6 !important;
  opacity: 1;
  animation-delay: -5s;
@@ -205,5 +209,29 @@ section .low-3 {
  }
  100% {
   background-position-x: -1000px;
+ }
+}
+
+@keyframes tokenAnimate {
+ 0% {
+  transform: scale(0.5) translateY(0) rotate(0deg);
+  opacity: 0;
+  filter: blur(6px);
+ }
+ 5% {
+  filter: blur(0px);
+ }
+
+ 10% {
+  opacity: 0.3;
+ }
+
+ 80% {
+  opacity: 0.3;
+ }
+
+ 100% {
+  transform: scale(1) translateY(-1500%) rotate(0deg);
+  opacity: 0.3;
  }
 }

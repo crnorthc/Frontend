@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 // State Stuff
-import { connect } from "react-redux"
-import PropTypes from 'prop-types'
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const Home: NextPage = (props: any) => {
  Home.propTypes = {
@@ -23,7 +23,10 @@ const Home: NextPage = (props: any) => {
    </Head>
 
    <main>
-    <div className='relative w-full h-screen bg-dark overflow-hidden'>
+    <div
+     id='showcase'
+     className='relative w-full h-screen bg-dark overflow-hidden'
+    >
      <div className='fixed w-full z-20 l-0'>
       <div
        className='
@@ -68,12 +71,12 @@ const Home: NextPage = (props: any) => {
          </h1>
          <div className='flex flex-col justify-center items-center pt-5 sm:pt-16'>
           <Link href='/signup'>
-           <a className='z-10 w-60 sm:w-96 p-2 mb-4 bg-primary rounded-2xl text-light  text-center text-xl sm:text-3xl glory transition duration-100 ease-in-out transform hover:scale-105 signup-shadow'>
+           <a className='z-10 w-60 sm:w-96 p-2 mb-4 bg-primary rounded-2xl text-light  text-center text-xl sm:text-3xl glory transition duration-100 ease-in-out transform hover:scale-105 primary-shadow'>
             Get Started
            </a>
           </Link>
           <Link href='/login'>
-           <a className='z-10 w-60 sm:w-96 p-2 bg-secondary rounded-2xl text-light text-center text-xl sm:text-3xl  glory transition duration-100 ease-in-out transform hover:scale-105 login-shadow'>
+           <a className='z-10 w-60 sm:w-96 p-2 bg-secondary rounded-2xl text-light text-center text-xl sm:text-3xl  glory transition duration-100 ease-in-out transform hover:scale-105 secondary-shadow'>
             I Already Have an Account
            </a>
           </Link>
@@ -177,4 +180,4 @@ const mapStateToProps = (state: any) => ({
  is_admin: state.admin.is_admin,
 });
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);
