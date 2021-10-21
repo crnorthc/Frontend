@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Script from "next/script";
 import Image from "next/image";
+import "../public/tokens";
 
 // State Stuff
 import { connect } from "react-redux";
@@ -14,19 +16,15 @@ const Home: NextPage = (props: any) => {
   logged_in: PropTypes.bool,
   is_admin: PropTypes.bool,
  };
-
  return (
   <div>
    <Head>
     <title>Vapur</title>
     <link rel='icon' type='image/svg' href='/vapur.svg' />
    </Head>
-
+   <div className='tokenCont'></div>
    <main>
-    <div
-     id='showcase'
-     className='relative w-full h-screen bg-dark overflow-hidden'
-    >
+    <div className='relative w-full h-screen bg-dark overflow-hidden'>
      <div className='fixed w-full z-20 l-0'>
       <div
        className='
@@ -71,12 +69,12 @@ const Home: NextPage = (props: any) => {
          </h1>
          <div className='flex flex-col justify-center items-center pt-5 sm:pt-16'>
           <Link href='/signup'>
-           <a className='z-10 w-60 sm:w-96 p-2 mb-4 bg-primary rounded-2xl text-light  text-center text-xl sm:text-3xl glory transition duration-100 ease-in-out transform hover:scale-105 primary-shadow'>
+           <a className='z-10 w-60 sm:w-96 p-2 mb-4 bg-primary rounded-2xl text-light  text-center text-xl sm:text-3xl glory transition duration-100 ease-in-out transform hover:scale-105 signup-shadow'>
             Get Started
            </a>
           </Link>
           <Link href='/login'>
-           <a className='z-10 w-60 sm:w-96 p-2 bg-secondary rounded-2xl text-light text-center text-xl sm:text-3xl  glory transition duration-100 ease-in-out transform hover:scale-105 secondary-shadow'>
+           <a className='z-10 w-60 sm:w-96 p-2 bg-secondary rounded-2xl text-light text-center text-xl sm:text-3xl  glory transition duration-100 ease-in-out transform hover:scale-105 login-shadow'>
             I Already Have an Account
            </a>
           </Link>
@@ -171,6 +169,7 @@ const Home: NextPage = (props: any) => {
      </section>
     </div>
    </main>
+   <Script src='../public/tokens' strategy='lazyOnload' />
   </div>
  );
 };

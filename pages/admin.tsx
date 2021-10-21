@@ -1,6 +1,6 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import Router from "next/router"
+import Link from 'next/link'
 import React, { useState } from "react"
 
 // State Stuff
@@ -23,10 +23,15 @@ const Admin: NextPage = (props: any) => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className='flex flex-col items-center'>
-				<div className='w-1/2 bg-dark'>
-
-                </div>
+			<main className='bg-medium'>
+				<div className='px-50 flex flex-row justify-between items-center'>
+					<button>
+						Create Game
+					</button>
+					<button>
+						View Games
+					</button>
+				</div>
 			</main>
 		</div>
 	)
