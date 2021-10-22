@@ -1,79 +1,99 @@
-import type { NextPage } from "next"
-import Head from "next/head"
-import Router from "next/router"
-import Link from "next/link"
-import React, { useState } from "react"
+import type { NextPage } from "next";
+import Head from "next/head";
+import Router from "next/router";
+import Link from "next/link";
+import React, { useState } from "react";
 
 // State Stuff
-import { connect } from "react-redux"
-import PropTypes from 'prop-types'
-import { login, loadUser } from "../store/actions/auth"
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login, loadUser } from "../store/actions/auth";
 
 const Login: NextPage = (props: any) => {
-	const [username, setUsername] = useState("")
-	const [password, setPassword] = useState("")
-	const [remember, setRemember] = useState(false)
+ const [username, setUsername] = useState("");
+ const [password, setPassword] = useState("");
+ const [remember, setRemember] = useState(false);
 
-	Login.propTypes = {
-		loadUser: PropTypes.func.isRequired,
-        login: PropTypes.func.isRequired,
-		logged_in: PropTypes.bool
-    }
+ Login.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  logged_in: PropTypes.bool,
+ };
 
-	const handleSubmit = () => {
-		props.login(username, password, remember)
-	}
+ const handleSubmit = () => {
+  props.login(username, password, remember);
+ };
 
-	if (props.logged_in) {
-		Router.push('/')
-	}
+ if (props.logged_in) {
+  Router.push("/");
+ }
 
-	return (
-		<div>
-			<Head>
-				<title>Login</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
+ return (
+  <div className='bg-dark'>
+   <Head>
+    <title>Login - Vapur</title>
+    <link rel='icon' href='/favicon.ico' />
+   </Head>
 
-			<main className='flex flex-col items-center'>
-				<div className="bg-grey-lighter min-h-screen flex flex-col w-1/2">
-					<div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-">
-						<div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-							<h1 className="mb-8 text-3xl text-center">Login</h1>			
-							<input type="text" className="block border border-grey-light w-full p-3 rounded mb-4" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />				
-							<input type="password" className="block border border-grey-light w-full p-3 rounded mb-4" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-							<div className="flex pb-8 items-center">
-								<input type="checkbox" onChange={() => setRemember(!remember)} className="w-5 h-5 mr-2"/>
-								<span className="text-m text-gray-700">Remember Me</span>
-							</div>
-							<button onClick={() => handleSubmit()} type="submit" className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1">
-								Login
-							</button>
-						</div>
+   <main className='container pt-16 pb-5 sm:pb-0 sm:py-0 h-screen flex items-center justify-center'>
+    <div className='max-w-lg flex-1 flex flex-col items-center justify-center'>
+     <div className='bg-medium rounded-2xl px-6 py-4 sm:py-8 shadow-md text-black w-full medium-shadow-big'>
+      <h1 className='mb-8 text-4xl text-light text-center glory'>Login</h1>
+      <input
+       type='text'
+       className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
+       value={username}
+       onChange={(e) => setUsername(e.target.value)}
+       placeholder='Username'
+      />
+      <input
+       type='password'
+       className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
+       value={password}
+       onChange={(e) => setPassword(e.target.value)}
+       placeholder='Password'
+      />
+      <div className='flex pb-4 sm:pb-8 items-center'>
+       <input
+        type='checkbox'
+        onChange={() => setRemember(!remember)}
+        className='w-5 h-5 mr-2'
+       />
+       <span className='pt-1 text-lg text-light poppins'>Remember Me</span>
+      </div>
+      <button
+       onClick={() => handleSubmit()}
+       type='submit'
+       className='transition-colors duration-100 w-full text-center py-3 rounded-2xl bg-secondary text-xl text-light hover:bg-secondaryLight focus:outline-none my-1 poppins'
+      >
+       Login
+      </button>
+     </div>
 
-						<div className="text-grey-dark mt-6 ">
-							Don't Have an Account?
-							<a className="no-underline ml-2 border-b border-blue text-blue">
-								Signup
-							</a>
-							.
-						</div>
-						<div className="text-grey-dark mt-6 ">		
-							<Link href='/recover'>
-								<a className="no-underline ml-2 border-b border-blue text-blue">
-									Forgot your Password?
-								</a>
-							</Link>																			
-						</div>
-					</div>
-				</div>
-			</main>
-		</div>
-	)
-}
+     <div className='text-light mt-6 '>
+      Don&apos;t Have an Account?
+      <Link href='/signup'>
+       <a className='no-underline ml-2 border-b border-primary text-primary'>
+        Signup
+       </a>
+      </Link>
+      .
+     </div>
+     <div className='text-light mt-6 '>
+      <Link href='/recover'>
+       <a className='no-underline ml-2 border-b border-secondary text-secondary'>
+        Forgot your Password?
+       </a>
+      </Link>
+     </div>
+    </div>
+   </main>
+  </div>
+ );
+};
 
 const mapStateToProps = (state: any) => ({
-	logged_in: state.auth.logged_in
-})
+ logged_in: state.auth.logged_in,
+});
 
-export default connect(mapStateToProps, { login, loadUser })(Login)
+export default connect(mapStateToProps, { login, loadUser })(Login);
