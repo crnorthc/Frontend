@@ -1,8 +1,12 @@
+import Router from "next/router"
 import { 
     EVENT_START,
     ERROR,
     IS_ADMIN,
     CREATED_GAME,
+    DELETE_GAME,
+    ADMIN_ACCESS,
+    ADMIN_RESTRICT
  } from '../types'
 
 const initialState = {
@@ -21,6 +25,16 @@ export default function (state = initialState, action: any) {
                 signup_fail: false,
                 event_starting: true
             }
+        case ADMIN_ACCESS:
+            return {
+                ...state,
+                is_admin: true
+            }
+        case ADMIN_RESTRICT:
+            return {
+                ...state,
+                is_admin: false
+            }
         case IS_ADMIN:
             return {
                 ...state,
@@ -31,6 +45,11 @@ export default function (state = initialState, action: any) {
                 ...state,
                 event_starting: false,
                 game: action.payload
+            }
+        case DELETE_GAME:
+            return {
+                ...state,
+                game: null
             }
         case ERROR:
             return {

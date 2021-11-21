@@ -16,7 +16,9 @@ import {
     USER_LOADED,
     IS_ADMIN,
 
-    PASSWORD_CHANGED
+    PASSWORD_CHANGED,
+
+    LOGGED_OUT
  } from '../types'
 
  function getCookie() {
@@ -69,7 +71,7 @@ export const createUser = (user: Signup) => (dispatch: any) => {
         type: EVENT_START
     })
 
-    axios.post('http://127.0.0.1:8000/users/create', body, config)
+    axios.post('http://127.0.0.1:8000/user/create', body, config)
         .then(res => {
             dispatch({
                 type: CREATED_USER,
@@ -96,7 +98,7 @@ export const sendText = (phone: string) => (dispatch: any) => {
         type: TEXT_SENT
     })
 
-    axios.post('http://127.0.0.1:8000/users/send_text', body, config)
+    axios.post('http://127.0.0.1:8000/user/send_text', body, config)
 }
 
 export const resendText = (phone: string) => (dispatch: any) => {
@@ -109,7 +111,7 @@ export const resendText = (phone: string) => (dispatch: any) => {
         type: TEXT_SENT
     })
 
-    axios.post('http://127.0.0.1:8000/users/send_text', body, config)
+    axios.post('http://127.0.0.1:8000/user/send_text', body, config)
 }
 
 export const confirmPhone = (code: string, phone: string) => (dispatch: any) => {
@@ -122,7 +124,7 @@ export const confirmPhone = (code: string, phone: string) => (dispatch: any) => 
         type: EVENT_START
     })
 
-    axios.post('http://127.0.0.1:8000/users/confirm', body, config)
+    axios.post('http://127.0.0.1:8000/user/confirm', body, config)
     .then((res: any) => {
         dispatch({
             type: CONFIRMED_CODE
@@ -148,7 +150,7 @@ export const login = (username: string, password: string, remember: boolean) => 
         type: EVENT_START
     })
 
-    axios.post('http://127.0.0.1:8000/users/login', body, config)
+    axios.post('http://127.0.0.1:8000/user/login', body, config)
     .then((res: any) => {
         if (res.data.Super) {
             dispatch({
@@ -159,7 +161,7 @@ export const login = (username: string, password: string, remember: boolean) => 
         else {
             dispatch({
                 type: LOGGED_IN,
-                payload: res.data.Success
+                payload: res.data.user
             })
         }
     })
@@ -174,21 +176,27 @@ export const login = (username: string, password: string, remember: boolean) => 
     })
 }
 
-export const loadUser = (username: string) => (dispatch: any) => {
+export const logout = () => (dispatch: any) => {
+    
+    document.cookie = 'loggedIn=; Max-Age=0' 
+    dispatch({
+        type: LOGGED_OUT
+    })
+}
+
+export const loadUser = () => (dispatch: any) => {
 
     const config: any = getConfig(true)
-
-    const body = JSON.stringify({username})
 
     dispatch({
         type: EVENT_START
     })
 
-    axios.post('http://127.0.0.1:8000/users/load', body, config)
+    axios.get('http://127.0.0.1:8000/user/load', config)
     .then((res: any) => {
         dispatch({
             type: USER_LOADED,
-            payload: res.data
+            payload: res.data.user
         })
     })
     .catch((error: any) => {
@@ -207,7 +215,6 @@ export const checkCookies = () => (dispatch: any) => {
         type: COOKIES_CHECKED
     })
 
-    const body = JSON.stringify({})
     if (getUID() == '') {
         dispatch({
             type: NO_USER
@@ -216,11 +223,10 @@ export const checkCookies = () => (dispatch: any) => {
     else {
         if (getCookie() !== '') {
             const config: any = getConfig(true)
-
-            axios.post('http://127.0.0.1:8000/users/load', body, config)
+            axios.get('http://127.0.0.1:8000/user/load', config)
             .then((res: any) => {
                 dispatch({
-                    type: USER_LOADED,
+                    type: LOGGED_IN,
                     payload: res.data
                 })
             })  
@@ -243,7 +249,7 @@ export const recoverPhone = (phone: string) => (dispatch: any) => {
     const body = JSON.stringify({ phone })
     const config: any = getConfig(false)
 
-    axios.post('http://127.0.0.1:8000/users/recover-phone', body, config)      
+    axios.post('http://127.0.0.1:8000/user/recover-phone', body, config)      
 }
 
 export const changePassword = (password: string, phone: string) => (dispatch: any) => {
@@ -253,7 +259,7 @@ export const changePassword = (password: string, phone: string) => (dispatch: an
     const body = JSON.stringify({ password, phone })
 
 
-    axios.post('http://127.0.0.1:8000/users/change-password', body, config)
+    axios.post('http://127.0.0.1:8000/user/change-password', body, config)
     .then((res: any) => {
         dispatch({
             type: PASSWORD_CHANGED
@@ -276,7 +282,7 @@ export const createAdmin = (admin: AdminSignup) => (dispatch: any) => {
 
     const body = JSON.stringify(admin)
 
-    axios.post('http://127.0.0.1:8000/users/create-admin', body, config)
+    axios.post('http://127.0.0.1:8000/user/create-admin', body, config)
         .then((res: any) => {
             dispatch({
                 type: CREATED_USER

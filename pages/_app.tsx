@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import { store } from "../store/store";
 import "../public/styles.css";
 import Auth from "../tools/auth";
-import Nav from "../tools/Nav";
+import Nav from "../components/Nav";
+import Notify from "../components/Notify";
 
 function MyApp({ Component, pageProps }: AppProps) {
  return (
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Nav />
     <Component {...pageProps} />
    </Auth>
+   <Notify/>
   </Provider>
  );
 }

@@ -15,7 +15,8 @@ import {
 
     USER_LOADED,
     NO_USER,
-    PASSWORD_CHANGED
+    PASSWORD_CHANGED,
+    LOGGED_OUT
  } from '../types'
 
 const initialState = {
@@ -72,6 +73,10 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             logged_in: true
+        }
+    case LOGGED_OUT:
+        return {
+            initialState
         }
     case IS_ADMIN:
         return {
