@@ -4,7 +4,9 @@ import {
     EVENT_START,
     RECENT_GAME,
     WALLET_INFO,
-    STATS
+    STATS,
+    HISTORY,
+    WATCHING
  } from "../types"
 
 function getCookie() {
@@ -93,6 +95,58 @@ export const getStats = () => (dispatch: any) => {
             dispatch({
                 type: STATS,
                 payload: res.data
+            })
+        })
+}
+
+export const getHistory = () => (dispatch: any) => {
+
+    const config: any = getConfig(true)
+
+    dispatch({
+        type: EVENT_START
+    })
+
+    axios.get('http://127.0.0.1:8000/user/history', config)
+        .then((res: any) => {
+            dispatch({
+                type: HISTORY,
+                payload: res.data.History
+            })
+        })
+}
+
+export const watch = (id: Number) => (dispatch: any) => {
+    const config: any = getConfig(true)
+
+    const body = JSON.stringify({id})
+
+    dispatch({
+        type: EVENT_START
+    })
+
+    axios.post('http://127.0.0.1:8000/user/watch', body, config)
+        .then((res: any) => {
+            dispatch({
+                type: WATCHING,
+                payload: res.data.watchlist
+            })
+        })
+}
+
+export const getWatch = () => (dispatch: any) => {
+
+    const config: any = getConfig(true)
+
+    dispatch({
+        type: EVENT_START
+    })
+
+    axios.get('http://127.0.0.1:8000/user/watch', config)
+        .then((res: any) => {
+            dispatch({
+                type: WATCHING,
+                payload: res.data.watchlist
             })
         })
 }

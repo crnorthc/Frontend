@@ -55,7 +55,7 @@ class Line extends React.Component {
 			<ChartCanvas height={450}
 				ratio={ratio}
 				width={width}
-				margin={{ left: 40, right: 110, top: 20, bottom: 30 }}
+				margin={{ left: 40, right: 110, top: 40, bottom: 20 }}
 				type={type}
 				seriesName="MSFT"
 				data={data}
@@ -66,7 +66,7 @@ class Line extends React.Component {
 				<Chart id={1}
 					yExtents={d => d.close}
 				>
-					<XAxis {...gridX} fontFamily={'"Poppins", sans-serif'} stroke='#FFB900' tickStroke='#EEEEEE' axisAt="bottom" orient="bottom"/>
+					<XAxis {...gridX} fontFamily={'"Poppins", sans-serif'} stroke='#FFB900' tickStroke='#EEEEEE' axisAt="bottom" orient="bottom" ticks={5} />
 					<YAxis {...gridY} fontFamily={'"Poppins", sans-serif'} stroke='#FFB900' tickStroke='#EEEEEE' axisAt="right" orient="right" ticks={5} />
 
 					<MouseCoordinateX
@@ -87,7 +87,7 @@ class Line extends React.Component {
                     <EdgeIndicator yAxisPad={10} fontFamily={'"Poppins", sans-serif'} itemType="last" orient="right" edgeAt="right"
 						yAccessor={d => d.close} />
 
-                <SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" labelFill="#00C2EF" origin={[0,-10]} yDisplayFormat={timeFormat("%Y-%m-%d %I:%M %p")} yLabel={'Date'} yAccessor={d => d.date} />
+                <SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" labelFill="#00C2EF" origin={[0,-10]} yDisplayFormat={timeFormat("%m-%d")} yLabel={'Date'} yAccessor={d => d.date} />
                 <SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" labelFill="#00C2EF" origin={[200,-10]} yLabel={'Price'} yAccessor={d => d.close} />
 
 				</Chart>

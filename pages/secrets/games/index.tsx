@@ -8,19 +8,20 @@ import Loader from "react-loader-spinner";
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
 import Router from "next/router"
-import { getMyGames } from "../../store/actions/game"
+import { getGames } from "../../../store/actions/game"
 
 
-const MyGames: NextPage = (props: any) => {
+const Create: NextPage = (props: any) => {
+	const [tiered, setType] = useState(true);
 
-	MyGames.propTypes = {
-        getMyGames: PropTypes.func.isRequired,
+	Create.propTypes = {
+        getGames: PropTypes.func.isRequired,
         games: PropTypes.array
     }
 
     useEffect(() => {
         if (props.games == null) {
-            props.getMyGames()
+            props.getGames()
         }
     }, [])
 
@@ -51,15 +52,16 @@ const MyGames: NextPage = (props: any) => {
             const split = props.games[game]['split']
             const players = props.games[game]['players']
             const bet = props.games[game]['bet']
+            const live = props.games[game]['live']
 
             games.push(
-                <button onClick={() => Router.push('/games/' + code)} className='text-left pl-8 flex flex-row items-center bg-dark border-t-4 border-medium hover:bg-medium rounded-b-xl'>
+                <button onClick={() => Router.push('/secrets/games/' + code)} className='text-left pl-8 pr-4 flex flex-row items-center bg-dark border-t-4 border-medium hover:bg-medium rounded-b-xl'>
                     {type == 'tiered' ? 
                         <Image width={20} height={20} src="/TierIcon.svg" alt="" />
                         :
-                        <Image width={30} height={30} src="/MultIcon.svg" alt="" />
+                        <Image width={20} height={20} src="/MultIcon.svg" alt="" />
                     }
-                    <div className={"grid grid-cols-7 py-2 items-center pl-8 gap-4 w-full " + `${type == 'multiplier' ? '-ml-2' : ''}`}>
+                    <div className="grid grid-cols-7 py-2 items-center pl-8 gap-4 w-full">
                         <div className="col-span-1">
                             <p className="text-light text-xl">{name}</p>
                         </div>
@@ -79,16 +81,13 @@ const MyGames: NextPage = (props: any) => {
                         <div className="col-span-1">
                             <p className="text-light text-xl">${bet}{type == 'tiered' ? "+" : ''}</p>
                         </div>
-                    </div>                                     
+                    </div>   
+                    {live ?
+                        <div className="col-span-0 w-4 h-4 -ml-12 rounded-full bg-green"/>
+                        :
+                        <div className="col-span-0 w-4 h-4 -ml-12 rounded-full bg-red"/>
+                    }                                   
                 </button>                
-            )
-        }
-
-        for (let i = 0; i < (6 - Object.keys(props.games).length); i++) {
-            games.push(
-                <div className="pb-md bg-dark rounded-b-xl border-t-4 border-medium">
-                
-                </div>
             )
         }
 
@@ -148,4 +147,4 @@ const mapStateToProps = (state: any) => ({
 	games: state.game.games
 })
 
-export default connect(mapStateToProps, { getMyGames })(MyGames)
+export default connect(mapStateToProps, { getGames })(Create)

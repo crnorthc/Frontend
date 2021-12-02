@@ -3,6 +3,8 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
 import "../public/styles.css";
+import "../public/animations.css";
+import 'react-slidedown/lib/slidedown.css'
 import Auth from "../tools/auth";
 import Nav from "../components/Nav";
 import Notify from "../components/Notify";

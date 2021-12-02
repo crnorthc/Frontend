@@ -1,0 +1,79 @@
+.expand {
+    animation: expand .3s forwards;
+    animation-timing-function: linear;
+    overflow: hidden;
+}
+
+@keyframes expand {
+    0% {
+        height: 0rem
+    }
+
+    100% {
+        height: 13rem
+    }
+}
+
+.collapse {
+    animation: collapse .3s forwards;
+    animation-timing-function: linear;
+    overflow: hidden;
+}
+
+@keyframes collapse {
+    0% {
+        height: 13rem
+    }
+
+    100% {
+        height: 0rem
+    }
+}
+
+
+.editLineup {
+    animation: editLineup 1s forwards;
+}
+  
+@keyframes editLineup {
+    0% {
+        width: 0px;
+    }
+
+    100% {
+        width: 95px;
+    }
+}
+
+
+.dot-1 {
+    animation: dot 1s infinite;
+}
+.dot-2 {
+    animation: dot 1s infinite;
+    animation-delay: 150ms;
+}
+.dot-3 {
+    animation: dot 1s infinite;
+    animation-delay: 300ms;
+}
+  
+@keyframes dot {
+    25% {
+        opacity: 0.75;
+        transform: translateY(-10px);
+    }
+
+    50% {
+        opacity: .5;
+        transform: translateY(0px);
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: scaleY(1)
+    }
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="9.2664032mm"
+   height="9.2664051mm"
+   viewBox="0 0 9.2664032 9.2664051"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   sodipodi:docname="TierIcon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.1135662"
+     inkscape:cx="-126.17121"
+     inkscape:cy="108.65991"
+     inkscape:window-width="1800"
+     inkscape:window-height="992"
+     inkscape:window-x="1777"
+     inkscape:window-y="70"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-14.374798,-87.692566)">
+    <rect
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#ffb900;fill-opacity:1;fill-rule:evenodd;stroke-width:0.0377959;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       id="rect846"
+       width="9.2664032"
+       height="1.6791552"
+       x="14.374798"
+       y="95.279816"
+       ry="0" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#ffb900;fill-opacity:1;fill-rule:evenodd;stroke-width:0.0315207;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect846-9"
+       width="6.8060222"
+       height="1.5900552"
+       x="14.374798"
+       y="92.79528"
+       ry="0" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#ffb900;fill-opacity:1;fill-rule:evenodd;stroke-width:0.0199584;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect846-9-1"
+       width="2.5839031"
+       height="1.6791552"
+       x="14.374798"
+       y="87.692566"
+       ry="0" />
+    <rect
+       style="font-variation-settings:normal;vector-effect:none;fill:#ffb900;fill-opacity:1;fill-rule:evenodd;stroke-width:0.0272348;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000"
+       id="rect846-9-3"
+       width="4.8114033"
+       height="1.6791552"
+       x="14.374798"
+       y="90.221657"
+       ry="0" />
+  </g>
+</svg>

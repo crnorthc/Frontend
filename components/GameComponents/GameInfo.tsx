@@ -103,7 +103,7 @@ const GameInfo: any = (props: any) => {
 
    
     return (
-        <div className="flex py-4 px-4 rounded-md flex-col min-w-md bg-dark">
+        <div className="flex py-4 px-4 rounded-md flex-col w-full bg-dark">
             <div className="flex flex-row w-full justify-between items-center">
                 <p className="text-md text-lightmedium">League</p>
                 <h1 className="text-2xl py-2 text-light">{props.game.league}</h1>

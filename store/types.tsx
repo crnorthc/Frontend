@@ -11,6 +11,8 @@ export const ERROR = "ERROR";
 export const RECENT_GAME = "RECENT_GAME"
 export const WALLET_INFO = "WALLET_INFO"
 export const STATS = "STATS"
+export const HISTORY = "HISTORY"
+export const WATCHING = "WATCHING"
 
 /*
     Types for Authentication
@@ -54,6 +56,7 @@ export const MYGAMES_LOADED = "MYGAMES_LOADED";
 export const GAME_SET = "GAME_SET"
 export const DELETE_GAME = "DELETE_GAME"
 export const PLAYER_SET = "PLAYER_SET"
+export const PLAYER_LEFT = "PLAYER_LEFT"
 export const SEARCH_MADE = "SEARCH_MADE"
 export const FETCHING_DATA = "FETCHING_DATA"
 export const DATA_FETCHED = 'DATA_FETCHED'

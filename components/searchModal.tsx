@@ -9,12 +9,22 @@ import PropTypes from 'prop-types'
 import { searchCryptos, getData, editLineup } from "../store/actions/game"
 
 
+const LINKS = {
+    'website': '/website.svg',
+    'twitter': '/004-twitter.svg',
+    'message-board': '/Chat.svg',
+    'reddit': '/Reddit.svg',
+    'source_code': '/Github.svg',
+    'announcement': 'Announcement.svg'
+}
+
 const ChartModal: any = (props: any) => {
     const [searchOpen, setSearchOpen] = useState(false)    
     const [search, setSearch] = useState('')
     const [allocation, setAllocation]: any = useState('')
     const [cash, setCash] = useState(props.player.cash)
     const [all, setAll] = useState(false)
+    const [scroll, setScroll] = useState(true)
 
     ChartModal.propTypes = {
         getData: PropTypes.func.isRequired,
@@ -37,7 +47,6 @@ const ChartModal: any = (props: any) => {
         setSearch('')
         setSearchOpen(false)
     }
-
 
     const handleSearch = () => {        
         props.searchCryptos(search)
@@ -193,7 +202,24 @@ const ChartModal: any = (props: any) => {
     }
 
     const getCash = () => {
-        return toMoney(cash - (allocation.toString().replace(',','').replace('$', '')))
+        var allo = allocation_num(allocation)
+
+        return toMoney(cash - Number(allo))
+    }
+
+    const getSocials = () => {
+        var socials: any = []
+        for (const link in props.data.selected.links) {
+            if (link in LINKS && props.data.selected.links[link].length != 0) {
+                socials.push(
+                    <a href={props.data.selected.links[link][0]}>
+                        <Image alt='' width={40} height={40} src={LINKS[link]} />
+                    </a>
+                )
+            }
+        }
+
+        return socials
     }
 
     if (props.data == null) {
@@ -206,13 +232,13 @@ const ChartModal: any = (props: any) => {
     }
     else {
         return (
-            <div className="relative z-50 pt-12 flex flex-row justify-center items-center w-full">
-                <div className="w-full bg-dark rounded-lg border-2 border-primary max-h-xl overflow-y-auto overflow-x-hidden">
-                    <div className="flex pt-2 flex-row w-full justify-between">
+            <div className="relative z-50 flex flex-row justify-center items-center w-full">
+                <div className={`${scroll ? 'overflow-y-auto' : 'overflow-y-hidden'}` + " no-scroll -mt-2 w-full bg-dark2 rounded-lg border-2 border-primary max-h-xlg overflow-x-hidden"}>
+                    <div className="flex pt-4 -ml-3 flex-row w-full justify-between">
                         {!searchOpen ?
                             <button onClick={() => setSearchOpen(true)} className="flex flex-row items-center justify-center w-1/2">                                
                                 <input
-                                    className='py-2 pl-2 text-xl cursor-pointer outline-none w-3/4 rounded-l-md'
+                                    className='py-2 pl-2 bg-light text-xl cursor-pointer outline-none w-3/4 rounded-l-md'
                                     placeholder='ex. Bitcoin, BTC...'
                                     type='text'/>
                                 <button className="flex flex-col justify-center items-center rounded-r-md w-12 h-11 bg-secondary hover:bg-secondaryLight">      
@@ -231,48 +257,71 @@ const ChartModal: any = (props: any) => {
                         <h1 className='text-xl pb-0 px-2 text-light'>{props.data.selected.name}</h1>
                         <h1 className='text-md font-light text-light'>{props.data.selected.symbol}</h1>
                     </div>
-                    {props.data == null ?
-                        <Loader
-                            type="Circles"
-                            color="#00C2EF"
-                            height={50}
-                            width={50}
-                        />
-                        :
-                        props.data.data == null ?
-                            <div className="">
-                                No data for this bitch, use coinmarket cap or something
-                            </div>
-                            :
-                            <Chart data={props.data.data} />                    
-                    } 
-                    <div className="flex flex-col bg-medium items-center mx-6 my-4 px-12">
-                        <div className="flex flex-row w-full px-12 justify-between py-4 items-center">
-                            <div className="flex flex-row justify-start">
-                                <h1 className='text-lg pr-2 text-light'>Available:</h1>
-                                <h1 className='text-lg text-light'>{getCash()}</h1>
-                            </div>
-                            <div className="flex flex-row items-center justify-around">
-                                <h1 className='text-lg pr-2 text-light'>Allocation:</h1>
-                                <input
-                                    type='text'
-                                    value={allocation}
-                                    className='border w-full focus:outline-none border-grey-light p-3 rounded-lg poppins'
-                                    onChange={(e) => handleChange(e.target.value)}
-                                    placeholder='ex. $10'
-                                    />
-                            </div>
-                        </div> 
-                        <button onClick={() => edit_lineup()} className="px-4 py-2 my-4 hover:bg-secondaryLight bg-secondary text-xl text-light rounded-md">
-                            Confirm
-                        </button>     
-                    </div>   
-                    <div className="pl-6 pt-10 text-xl text-left text-light">Description:</div>
-                    <div className="flex flex-col items-center mx-6 px-12">
-                        <div className="text-left py-2 text-light">
-                            {props.data.selected.description}
+                    <div className="flex flex-row justify-between">
+                        <div className="w-5/7">
+                            {props.data == null ?
+                                <Loader
+                                    type="Circles"
+                                    color="#00C2EF"
+                                    height={50}
+                                    width={50}
+                                />
+                                :
+                                props.data.data == null ?
+                                    <div className="">
+                                        No data for this bitch, use coinmarket cap or something
+                                    </div>
+                                    :
+                                    <Chart setScroll={setScroll} data={props.data.data} />                    
+                            } 
                         </div>                        
-                    </div>                      
+                        <div className="flex flex-col justify-between items-start bg-lightHue3 mr-4 ml-2 mb-16 mt-4 rounded-lg w-full">
+                            <div className="flex flex-col items-start w-full">
+                                <h1 className='text-xl pt-4 pl-4 text-light'>Purchase {props.data.selected.symbol}</h1>
+                                <div className="flex pt-8 flex-row w-full justify-between items-center">
+                                    <h1 className='text-lg pl-4 text-light'>Allocate</h1>
+                                    <input
+                                        type='text'
+                                        value={allocation}
+                                        className='border w-1/2 bg-light mr-2 focus:outline-none py-2 px-3 rounded-lg poppins'
+                                        onChange={(e) => handleChange(e.target.value)}
+                                        placeholder='ex. $10'
+                                    />
+                                </div>
+                                <div className="flex pt-12 flex-row w-full justify-between items-center">
+                                    <h1 className='text-lg pl-4 text-light'>Cash Available</h1>
+                                    <h1 className='text-lg pr-4 text-light'>{toMoney(cash)}</h1>
+                                </div>
+                                <div className="flex pt-4 flex-row w-full justify-between items-center">
+                                    <h1 className='text-lg font-light pl-8 text-light'>Amount</h1>
+                                    <h1 className='text-lg font-light pr-4 text-light'>{allocation != '' ? toMoney(allocation) : '$0'}</h1>
+                                </div>
+                                <div className="flex pt-4 flex-row w-full justify-between items-center">
+                                    <h1 className='text-lg font-light pl-8 text-light'>Remaining</h1>
+                                    <h1 className='text-lg font-light pr-4 text-light'>{toMoney(getCash())}</h1>
+                                </div>                                
+                            </div>    
+                            <div className="flex flex-row w-full justify-center">
+                                <button onClick={() => edit_lineup()} className="px-4 py-2 my-4 hover:bg-secondaryLight bg-secondary text-xl text-light rounded-md">
+                                    Confirm
+                                </button> 
+                            </div>                                                
+                        </div>
+                    </div> 
+                    <div className="flex flex-col mt-8 mx-4 mb-10 py-4 rounded-lg bg-lightHue3">
+                        <div className="text-2xl text-left ml-12 text-primary3">Description</div>
+                        <div className="w-32 border-t-2 ml-12 border-primary3" />
+                        <div className="flex flex-col items-center px-12">
+                            <div className="text-left py-2 text-light">
+                                {props.data.selected.description}
+                            </div>                        
+                        </div>  
+                    </div>  
+                    <div className="flex flex-row justify-center w-full mb-5">
+                        <div className="flex flex-row w-1/2 justify-between">
+                            {getSocials()} 
+                        </div>                        
+                    </div>                                                                                               
                 </div>                    
             </div>
         )

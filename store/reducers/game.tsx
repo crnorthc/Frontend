@@ -9,7 +9,8 @@ import {
     DATA_FETCHED,
     FETCHING_DATA,
     LOGGED_OUT,
-    COMPARED
+    COMPARED,
+    PLAYER_LEFT
  } from '../types'
 
 const initialState = {
@@ -33,6 +34,12 @@ export default function (state = initialState, action: any) {
             event_starting: true,
             search_results: 'loading'
         }
+        case PLAYER_LEFT:
+            return {
+                ...state,
+                game: null,
+                player: null
+            }
     case GAMES_LOADED:
         return {
             ...state,

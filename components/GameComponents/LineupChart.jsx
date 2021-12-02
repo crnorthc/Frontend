@@ -1,0 +1,153 @@
+import React from "react";
+import PropTypes from "prop-types";
+
+import { format } from "d3-format";
+import { timeFormat } from "d3-time-format";
+import { ChartCanvas, Chart } from "react-stockcharts";
+import {
+    LineSeries
+} from "react-stockcharts/lib/series";
+import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
+import { XAxis, YAxis } from "react-stockcharts/lib/axes";
+import {
+	CrossHairCursor,
+    EdgeIndicator,
+	MouseCoordinateX,
+	MouseCoordinateY,
+} from "react-stockcharts/lib/coordinates";
+
+import { SingleValueTooltip } from "react-stockcharts/lib/tooltip";
+import { fitWidth } from "react-stockcharts/lib/helper";
+
+class Line extends React.Component {
+	render() {
+        const gridY = {
+            innerTickSize: -1 * (this.props.width - 150),
+            tickStrokeDasharray: 'ShortDash',
+            tickStrokeOpacity: 0.1,
+            tickStrokeWidth: 1
+        }
+
+        const gridX = {
+            innerTickSize: -1 * 370,
+            tickStrokeDasharray: 'ShortDash',
+            tickStrokeOpacity: 0.1,
+            tickStrokeWidth: 1
+        }
+
+		const { type, data: initialData, width, ratio } = this.props;
+
+		var keys = Object.keys(this.props.data[0])
+		keys = keys.filter(e => e !== 'date' || e !== 'close')
+
+		const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => d.date);
+
+		const {
+			data,
+			xScale,
+			xAccessor,
+			displayXAccessor,
+		} = xScaleProvider(initialData);
+
+        var yExtent = null
+
+        if (this.props.view.includes('overall')) {
+            if (yExtent == null) yExtent = d => d.close
+        }
+        else {
+            if (yExtent == null) yExtent = d => d[this.props.view[0]]
+        }
+
+        const COLORS = ['#44d2a8ff', '#fea75fff', '#5a9cfeff', '#e77681ff', '#6f42c1ff']
+
+
+		const get_lines = () => {
+			var keys = Object.keys(this.props.data[0])
+			keys = keys.filter(e => e != 'date')
+			const lines = []
+			var count = 0
+
+            if (this.props.view.includes('overall')) {
+                lines.push(
+                    <>
+                        <SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" fontSize={16} labelFill="#00C2EF" origin={[count,-15]} yLabel={'overall'} yAccessor={d => d.close} />
+                        <LineSeries stroke='#00C2EF' strokeWidth={1.5} yAccessor={d => d.close}/>
+                        <EdgeIndicator yAxisPad={10} fontFamily={'"Poppins", sans-serif'} itemType="last" orient="right" edgeAt="right"
+                            yAccessor={d => d.close} />
+                    </>
+                )
+                count = count + 140
+            }
+
+			for (const x in keys) {
+				const name = keys[x]
+				if (this.props.view.includes(name)) {                    
+					lines.push(
+						<>
+							<SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" fontSize={16} labelFill={COLORS[x]} origin={[count,-15]} yLabel={name} yAccessor={d => d[name]} />
+							<LineSeries stroke={COLORS[x]} strokeWidth={1.5} yAccessor={d => d[name]}/>
+							<EdgeIndicator yAxisPad={10} fontFamily={'"Poppins", sans-serif'} itemType="last" orient="right" edgeAt="right"
+								yAccessor={d => d[name]} />
+						</>
+					)
+					count = count + 140
+				}				
+			}
+			return lines
+		}
+        
+		return (
+            <div onMouseEnter={() => this.props.setScroll(false)} onMouseLeave={() => this.props.setScroll(true)}>
+                <ChartCanvas height={450}
+                    ratio={ratio}
+                    width={width}
+                    margin={{ left: 40, right: 110, top: 60, bottom: 20 }}
+                    type={type}
+                    seriesName="MSFT"
+                    data={data}
+                    xScale={xScale}
+                    xAccessor={xAccessor}
+                    displayXAccessor={displayXAccessor}
+                >
+                    <Chart id={1} yExtents={yExtent}>
+                        <XAxis {...gridX} fontFamily={'"Poppins", sans-serif'} stroke='#00C2EF' tickStroke='#EEEEEE' axisAt="bottom" orient="bottom" ticks={5}/>
+                        <YAxis {...gridY} fontFamily={'"Poppins", sans-serif'} stroke='#00C2EF' tickStroke='#EEEEEE' axisAt="right" orient="right" ticks={5} />
+
+                        <MouseCoordinateX
+                            rectWidth={60}
+                            at="bottom"
+                            orient="bottom"
+                            fontFamily={'"Poppins", sans-serif'}
+                            displayFormat={timeFormat("%I:%M:%S %p")} />
+                        <MouseCoordinateY
+                            at="right"
+                            orient="right"
+                            dx={8}
+                            fontFamily={'"Poppins", sans-serif'}
+                            displayFormat={format(".2f")} />
+
+                        {get_lines()}
+
+                        <SingleValueTooltip fontFamily={'"Poppins", sans-serif'} valueFill="#EEEEEE" fontSize={12} labelFill="#FFB900" origin={[0,-40]} yDisplayFormat={timeFormat("%m-%d %I:%M %p")} yLabel={'Date'} yAccessor={d => d.date} />
+
+                    </Chart>
+				    <CrossHairCursor stroke='#FFB900' />
+			    </ChartCanvas>
+            </div>			
+		);
+	}
+}
+
+Line.propTypes = {
+	data: PropTypes.array.isRequired,
+	width: PropTypes.number.isRequired,
+	ratio: PropTypes.number.isRequired,
+	type: PropTypes.oneOf(["svg", "hybrid"]).isRequired,
+};
+
+Line.defaultProps = {
+	type: "svg",
+};
+Line = fitWidth(Line);
+
+export default Line;

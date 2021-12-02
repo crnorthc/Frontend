@@ -30,7 +30,7 @@ class Candle extends React.Component {
 	render() {
 
         const gridY = {
-            innerTickSize: -1 * (this.props.width - 150),
+            innerTickSize: -1 * (this.props.width - 100),
             tickStrokeDasharray: 'ShortDash',
             tickStrokeOpacity: 0.1,
             tickStrokeWidth: 1
@@ -66,7 +66,7 @@ class Candle extends React.Component {
 			<ChartCanvas height={450}
 					ratio={ratio}
 					width={width}
-					margin={{ left: 40, right: 110, top: 20, bottom: 30 }}
+					margin={{ left: 40, right:70, top: 20, bottom: 30 }}
 					type={type}
 					seriesName="MSFT"
 					data={data}

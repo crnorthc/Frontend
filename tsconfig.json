@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/GameComponents/PregameLineup.jsx", "components/ProfileComponents/Stats.jsx", "components/GameComponents/Chart.jsx"],
   "exclude": ["node_modules"]
 }

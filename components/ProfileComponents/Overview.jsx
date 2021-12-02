@@ -80,7 +80,7 @@ const Overview = (props) => {
             lineup_rows.push(
                 <div className="flex flex-row justify-between items-center pl-8 pt-2 rounded-md">
                     <div className="flex flex-row items-center">
-                        <Image width={25} height={25} src={lineup[x].logo} />
+                        <Image width={40} height={40} src={lineup[x].logo} />
                         <h1 className="text-light font-extralight pl-4 pr-2 text-xl">{lineup[x].name}</h1>
                         <h1 className="text-lightmedium font-extralight text-lg">{lineup[x].symbol}</h1>
                     </div>                    
@@ -116,25 +116,25 @@ const Overview = (props) => {
                         </div>
                         <div className="flex flex-row justify-between pl-6 pt-2 items-center w-full">
                             <h1 className="text-light font-extralight text-xl">Games Won</h1>
-                            <h1 className="text-light font-extralight text-xl">{props.user.stats.games_won}</h1>
+                            <h1 className="text-light font-extralight text-xl">{props.user.stats.tiered_games_won + props.user.stats.mult_games_won}</h1>
                         </div>
                         <div className="flex flex-row justify-between pl-6 items-center w-full">
                             <h1 className="text-light font-extralight text-xl">Games Lost</h1>
-                            <h1 className="text-light font-extralight text-xl">{props.user.stats.games_lost}</h1>
+                            <h1 className="text-light font-extralight text-xl">{props.user.stats.tiered_games_lost + props.user.stats.mult_games_lost}</h1>
                         </div>
                     </div>
                     <div className="border border-lightmedium rounded-md w-2/5 px-4 py-2">
                         <div className="flex flex-row justify-between items-center w-full">
                             <h1 className="text-light border-b border-lightmedium font-light px-1 text-xl">Total Wagered</h1>
-                            <h1 className="text-light font-extralight text-xl">${props.user.stats.total_bets}</h1>
+                            <h1 className="text-light font-extralight text-xl">{toMoney(props.user.stats.tiered_total_bets + props.user.stats.mult_total_bets)}</h1>
                         </div>
                         <div className="flex flex-row justify-between pl-6 pt-2 items-center w-full">
                             <h1 className="text-light font-extralight text-xl">Wagers Won</h1>
-                            <h1 className="text-light font-extralight text-xl">${props.user.stats.amount_won}</h1>
+                            <h1 className="text-light font-extralight text-xl">${props.user.stats.tiered_amount_won + props.user.stats.mult_amount_won}</h1>
                         </div>
                         <div className="flex flex-row justify-between pl-6 items-center w-full">
                             <h1 className="text-light font-extralight text-xl">Wagers Lost</h1>
-                            <h1 className="text-light font-extralight text-xl">${props.user.stats.amount_lost}</h1>
+                            <h1 className="text-light font-extralight text-xl">${props.user.stats.tiered_amount_lost + props.user.stats.mult_amount_lost}</h1>
                         </div>
                     </div>
                 </div>

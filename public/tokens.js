@@ -1,3 +1,4 @@
+/* 
 function createToken() {  
     var fuck = document.querySelector(".tokenCont");  
     const token = document.createElement("img");
@@ -23,3 +24,4 @@ function createToken() {
    }
 
 setInterval(createToken, 10000);
+*/

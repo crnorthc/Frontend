@@ -15,6 +15,7 @@ const Lineup = (props) => {
     const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false)
     const [all, setAll] = useState(false)
+    const [selected, setSelected] = useState('')
 
     const inputRef = useRef(null)
 
@@ -177,28 +178,39 @@ const Lineup = (props) => {
         setOpen(true)
     }
 
+    const handleSlide = (x) => {
+        if (x == selected) {
+            setSelected('')
+        }
+        else {
+            setSelected(x)
+        }
+    }
+
     const get_lineup = () => {
         const lineup = props.player.lineup
         var temp = []
         for (const x in lineup) {
             temp.push(
-                <div className="flex flex-row py-4 pl-8 pr-4 justify-between items-center">
-                    <div className="flex flex-row items-center">
-                        {lineup[x].logo == null ? <Image alt='' width={50} height={50} src='/NoLogo.svg' /> :<Image alt='' width={50} height={50} src={lineup[x].logo} />}
-                        <h1 className='text-xl pl-4 pr-2 pb-0 pr-2 text-light'>{lineup[x].name}</h1>
-                        <h1 className='text-md font-light text-light'>{lineup[x].symbol}</h1>
-                    </div>  
-                    <div className="flex flex-row items-center">
-                        <h1 className='text-xl text-light'>{toMoney(lineup[x].allocation)}</h1> 
-                        <div className="flex flex-row items-center pl-8">
-                            <button onClick={() => handleEdit(lineup[x])} className='flex flex-row p-1 rounded-lg hover:bg-lightmedium justify-center items-center '>
-                                <Image alt='' width={18} height={18} src='/edit.svg' />
-                            </button>                            
-                            <button onClick={() => props.editLineup(props.game.code, 0, lineup[x].id)} className='flex flex-row p-1 rounded-lg justify-center items-center ml-2 hover:bg-lightmedium'>
-                                <Image alt='' width={18} height={18} src='/trash.svg' />
-                            </button>                        
-                        </div> 
-                    </div>                                    
+                <div className="flex flex-row w-full">
+                    <button onClick={() => handleSlide(x)} className="flex flex-row w-full py-4 pl-8 pr-4 mb-1 justify-between bg-dark3 hover:bg-lightHover items-center">
+                        <div className="flex flex-row items-center">
+                            {lineup[x].logo == null ? <Image alt='' width={50} height={50} src='/NoLogo.svg' /> :<Image alt='' width={50} height={50} src={lineup[x].logo} />}
+                            <h1 className='text-xl pl-4 pr-2 pb-0 pr-2 text-light'>{lineup[x].name}</h1>
+                            <h1 className='text-md font-light text-light'>{lineup[x].symbol}</h1>
+                        </div>  
+                        <div className="flex flex-row items-center">
+                            <h1 className='text-xl text-light'>{toMoney(lineup[x].allocation)}</h1>                             
+                        </div>                                    
+                    </button>
+                    <div className={`${selected == x ? 'editLineup' : 'hidden'}` + " flex flex-row items-center pl-4 mb-1 bg-redHue3 pr-4"}>
+                        <button onClick={() => handleEdit(lineup[x])} className='flex flex-row p-1 rounded-lg hover:bg-dark4 justify-center items-center '>
+                            <Image alt='' width={25} height={25} src='/edit.svg' />
+                        </button>                            
+                        <button onClick={() => props.editLineup(props.game.code, 0, lineup[x].id)} className='flex flex-row p-1 rounded-lg justify-center items-center ml-2 hover:bg-transLight'>
+                            <Image alt='' width={25} height={25} src='/trash.svg' />
+                        </button>                        
+                    </div> 
                 </div>
             )
         }
@@ -206,7 +218,7 @@ const Lineup = (props) => {
     }
 
 	return (
-		<div className="w-full mr-8"> 
+		<div className="w-8/12"> 
             {open ? 
                 <div className="absolute z-40 top-0 left-0 bg-lightHover w-full h-full">
                     <div className="pageCont">
@@ -215,14 +227,14 @@ const Lineup = (props) => {
                 </div>                
                 : null
             }         
-			<main className='bg-medium flex flex-col items-center w-full'>
+			<main className='flex flex-col items-center w-full'>
                 <div className="flex flex-col items-center justify-center w-full">
-                    <div className="flex flex-row justify-between bg-dark border-t-2 border-r-2 border-l-2 border-primary rounded-t-xl items-center w-full"> 
-                        <h1 className="text-2xl pl-4 py-4 text-light">Search</h1>
+                    <div className="flex flex-row justify-between bg-dark rounded-t-xl items-center w-full"> 
+                        <h1 className="text-3xl pl-4 py-4 text-light glory">Your Lineup</h1>
                         {!searchOpen ?
                             <button onClick={() => setSearchOpen(true)} className="flex flex-row items-center justify-center w-1/2">                                
                                 <input
-                                    className='py-2 pl-2 text-xl cursor-pointer outline-none w-3/4 rounded-l-md'
+                                    className='py-2 pl-2 text-xl cursor-pointer bg-light outline-none w-3/4 rounded-l-md'
                                     placeholder='ex. Bitcoin, BTC...'
                                     type='text'/>
                                 <button className="flex flex-col justify-center items-center rounded-r-md w-12 h-11 bg-secondary hover:bg-secondaryLight">      
@@ -241,7 +253,7 @@ const Lineup = (props) => {
                             width={50}
                         />
                         :
-                        <div className="flex flex-col w-full border-b-2 border-r-2 border-l-2 border-primary max-h-lg overflow-y-auto rounded-b-xl">
+                        <div className="flex flex-col w-full bg-dark2 min-h-mds max-h-lg overflow-y-auto rounded-b-xl">
                             {props.player.lineup.length == 0 ?
                                 <div className="flex flex-row w-full justify-center">
                                     <h1 className="text-2xl pt-44 pb-48 text-light">Search to Add to your Lineup</h1> 

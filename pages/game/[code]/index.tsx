@@ -3,36 +3,28 @@ import Image from "next/image"
 import Head from "next/head"
 import React, { useState, useEffect } from "react"
 import Loader from "react-loader-spinner";
-import GameInfo from '../../../components/GameComponents/GameInfo'
+import InGameInfo from '../../../components/GameComponents/InGameInfo'
 import Players from '../../../components/GameComponents/Players'
 import LeaderLine from "../../../components/GameComponents/LeaderboardChart";
-import Line from '../../../tools/liny'
-import IngameLineup from '../../../components/GameComponents/InGameLineup'
+import LineupLine from '../../../components/GameComponents/LineupChart'
+import Stats from '../../../components/GameComponents/Stats'
 
 
 // State Stuff
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
 import { useRouter } from "next/router"
-import { getGame, compare } from "../../../store/actions/game"
+import { getGame, comparePlayer, compareLineup } from "../../../store/actions/game"
 import { notify } from '../../../store/actions/notify'
-import Path from "../../../components/path";
-
-
-const TIERS = {
-    'diamond': '/tiers/diamond.png',
-    'gold': '/tiers/gold.png',
-    'silver': '/tiers/silver.png',
-    'bronze': '/tiers/bronze.png',
-    'ghost': '/tiers/chicken.png',
-}
-
 
 const Game: NextPage = (props: any) => { 
-    const [view, setView]: any = useState([])
-    const [viewed, setViewed] = useState([])
-    const [showCompare, setCompare] = useState(false)
+    const [viewPlayer, setViewPlayer]: any = useState([])
+    const [viewedPlayers, setViewedPlayers] = useState([])
+    const [viewLineup, setViewLineup]: any = useState([])
+    const [viewedLineups, setViewedLineups] = useState([])
+    const [showPlayers, setPlayers] = useState(true)
     const [lineup, setLineup] = useState(false)
+    const [scroll, setScroll] = useState(true)
     const router = useRouter();
 
 	Game.propTypes = {
@@ -55,62 +47,77 @@ const Game: NextPage = (props: any) => {
         }
     }, [router.isReady])
 
-    const toMoney = (amount: number) => {
-        return '$' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    }
-
-    const wagerImage = () => {
-        if (props.game.type == 'tiered') {
-            return TIERS[props.player.wager.tier]
+    useEffect(() => {
+        var next: any = document.getElementById('__next')
+        if (scroll) {
+            next.style.overflow = 'auto'
         }
         else {
-            if (props.player.wager.amount == 0) {
-                return '/tiers/ghost.png'
-            }
-            else {
-                if (props.game.split == 'top 40') {
-                    return '/TwoX.svg'
-                }
-                else {
-                    return '/EightX.svg'
-                }
+            next.style.overflow = 'hidden'
+        }
+    }, [scroll])
+
+    if (props.player != null && !(viewPlayer.includes(props.user.username))) {
+        setViewedPlayers(props.player.portfolio)
+        setViewedLineups(props.player.portfolio)
+        setViewPlayer([props.user.username])
+        setViewLineup(['overall'])
+    }
+
+    const getRank = () => {
+        for (const rank in props.game.players_list) {
+            if (props.game.players_list[rank].player == props.user.username) {
+                return Number(rank) + 1
             }
         }
     }
 
-    const getWager = () => {
-        if (props.player.lineup != null) {
-            return (
-                <div className="flex flex-col items-center bg-dark border-2 border-primary rounded-md py-4 mt-4">
-                    <div className="flex -mr-2 flex-row items-center">
-                        <h1 className="text-2xl text-light">Wager</h1>
-                    </div>                    
-                    <div className="flex px-8 pt-4 flex-row justify-between items-center w-full">
-                        <Image width={50} height={50} src={wagerImage()} />
-                        <h1 className="text-xl text-light">{toMoney(props.player.wager.amount)}</h1>
-                    </div>
-                </div>                
-            )
-        }
-    }
-
-    if (props.player != null && !(view.includes(props.user.username))) {
-        setViewed(props.player.portfolio)
-        setView([props.user.username])
-    }
-
-    const handleView = (username: string) => {
-        if (!(view.includes(username))) {
-            if (!(username in viewed[0])) {                
-                compare(username, props.game.code, viewed).then((new_viewed: any) => {
-                    setViewed(new_viewed)
+    const handleViewPlayer = (username: string) => {
+        if (!(viewPlayer.includes(username))) {
+            if (!(username in viewedPlayers[0])) {                
+                comparePlayer(username, props.game.code, viewedPlayers).then((new_viewed: any) => {
+                    setViewedPlayers(new_viewed)
                 })                
             }
-            const temp: any = [...view, username]
-            setView(temp)
+            const temp: any = [...viewPlayer, username]
+            setViewPlayer(temp)
         }
         else {
-            setView(view.filter((e: any) => e !== username))
+            setViewPlayer(viewPlayer.filter((e: any) => e !== username))
+        }     
+    }
+
+    const handleViewLineup = (ticker: string, amount: Number) => {
+        ticker = ticker.replace('X:', '').replace('USD', '')
+        if (ticker == 'overall') {
+            if (viewLineup.length == 1 && viewLineup[0] == 'overall') return
+            if (!(viewLineup.includes(ticker))) {
+                const temp: any = [...viewLineup, 'overall']
+                setViewLineup(temp)
+            }
+            else {
+                setViewLineup(viewLineup.filter((e: any) => e !== 'overall'))
+            }   
+            return  
+        }
+
+        if (!(viewLineup.includes(ticker))) {
+            if (!(ticker in viewedLineups[0])) {                
+                compareLineup(ticker, 'D', viewedLineups, amount).then((new_viewed: any) => {
+                    setViewedLineups(new_viewed)
+                })                
+            }
+            const temp: any = [...viewLineup, ticker]
+            setViewLineup(temp)
+        }
+        else {
+            if (viewLineup.length == 1) {
+                const temp: any = ['overall']
+                setViewLineup(temp)
+            }
+            else { 
+                setViewLineup(viewLineup.filter((e: any) => e !== ticker))
+            }            
         }     
     }
     
@@ -141,48 +148,42 @@ const Game: NextPage = (props: any) => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className='bg-medium text-center h-full'>
-                <Path />
-                <h1 className="text-3xl text-light font-bold pt-20 mb-12">{props.game.name}</h1>
-                <div className="flex flex-col justify-between items-start w-full">
-                    <>
-                    {!showCompare ? <Line type={'hybrid'} data={props.player.portfolio} /> : <LeaderLine type={'hybrid'} view={view} data={viewed}/>}
-                    <div className="flex flex-row justify-end items-center w-full pt-3 pr-16">
-                        <button onClick={() => setCompare(false)} className={"flex flex-col justify-center items-center p-1 " + `${!showCompare ? 'border-b-2 border-primary' : ''}`}>
-                            <Image width={30} height={30} src='/SingleView.svg' />
-                        </button>
-                        <button onClick={() => setCompare(true)} className={"flex flex-col justify-center items-center p-1 ml-5 " + `${showCompare ? 'border-b-2 border-primary' : ''}`} >
-                            <Image width={30} height={30} src='/MultiView.svg' />
-                        </button>
-                    </div> 
-                    </>
-                    <div className="flex flex-row w-full mt-8 justify-between">
-                        <div className="flex flex-col w-full mr-8">
-                            <div className="flex flex-row border-t-2 border-l-2 border-r-2 border-primary rounded-t-lg">
-                                <button onClick={() => setLineup(false)} className="flex flex-col justify-center items-center w-1/2 text-xl text-light py-2 px-1">
-                                    <div className={"px-2 " + `${!lineup ? 'border-b-2 border-primary' : ''}`}>
-                                        Leaderboard
-                                    </div>                                    
+			<main className='bg-medium text-center h-full pb-20'>
+                <h1 className="text-5xl text-primary glory font-bold mb-8">{props.game.name}</h1>
+                <div className="flex flex-col justify-between items-start w-full overflow-y-hidden">
+                    <div className="flex flex-row justify-between w-full">
+                        <div className='w-8/12 bg-dark shadow-xl rounded-lg pt-4 pr-24'>
+                            {!showPlayers ? <LineupLine setScroll={setScroll} width={820} type={'hybrid'} view={viewLineup} data={viewedLineups}/> : <LeaderLine setScroll={setScroll} width={820} type={'hybrid'} view={viewPlayer} data={viewedPlayers}/>}
+                            <div className="flex flex-row justify-end items-center w-full pb-2">
+                                <button onClick={() => setPlayers(true)} className={"flex flex-col justify-center items-center p-1 " + `${showPlayers ? 'border-b-2 border-primary' : ''}`}>
+                                    <Image width={30} height={30} src='/MultiView.svg' />
                                 </button>
-                                <button onClick={() => setLineup(true)} className="flex flex-col justify-center items-center w-1/2 text-xl text-light py-2 px-1">
-                                    <div className={"px-2 " + `${lineup ? 'border-b-2 border-primary' : ''}`}>
-                                        Lineup
-                                    </div>                                    
+                                <button onClick={() => setPlayers(false)} className={"flex flex-col justify-center items-center p-1 ml-5 " + `${!showPlayers ? 'border-b-2 border-secondary' : ''}`} >
+                                    <Image width={30} height={30} src='/LineupView.svg' />
                                 </button>
-                            </div>
-                            {lineup ? 
-                                <IngameLineup/> 
+                            </div> 
+                        </div>
+
+                        <div className="flex ml-4 flex-col w-2/5 text-left">
+                            <div className="flex flex-row w-full justify-between pb-2 px-2">                                
+                                <h1 className="text-4xl glory text-light">{props.user.username}</h1> 
+                                <div className="flex flex-row items-end">
+                                    <h1 className="text-2xl glory text-primary2">#</h1>
+                                    <h1 className="text-4xl glory text-primary2">{getRank()}</h1> 
+                                </div>
+                            </div>                            
+                            <InGameInfo game={props.game} join={props.join} viewing={viewLineup} view={handleViewLineup}  />                        
+                        </div>                
+                    </div>                    
+                    <div className="flex flex-row w-full mt-8 justify-between">   
+                        <Stats />                     
+                        <div className="flex flex-col w-9/12">                            
+                            {'players_list' in props.game ? 
+                                <Players players={props.game.players_list} game={props.game} viewing={viewPlayer} view={handleViewPlayer}/> 
                                 : 
-                                'players_list' in props.game ? 
-                                    <Players players={props.game.players_list} viewing={view} view={handleView}/> 
-                                    : 
-                                    null
+                                null
                             }                                                    
-                        </div>                        
-                        <div className="flex flex-col">
-                            <GameInfo game={props.game} join={props.join}/>
-                            {getWager()}
-                        </div> 
+                        </div>                                                
                     </div>                                       
                 </div>                                                                                           
 			</main>

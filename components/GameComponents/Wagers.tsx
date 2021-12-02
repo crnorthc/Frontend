@@ -11,6 +11,7 @@ const BONUS = {
 
 const Wagers: any = (props: any) => {
     const [tier, setTier]: any = useState('ghost')
+    const [init, setInit] = useState(false)
     const [multi, setMulti] = useState('multi')
 
     const BET = {
@@ -47,8 +48,11 @@ const Wagers: any = (props: any) => {
     const get_tiers = () => {
         var temp = []
         for (const t in BET) {
-            if (props.player.balance >= BET[t]) {
-                if (BET[t] > BET[tier]) setTier(t)                
+            if (props.player.balance >= BET[t] && !init) {
+                if (BET[t] > BET[tier]) {
+                    setTier(t)
+                    setInit(true)
+                }                
             }
             temp.push(
                 <>

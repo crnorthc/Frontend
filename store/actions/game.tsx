@@ -1,5 +1,3 @@
-import { restClient } from '@polygon.io/client-js'
-import CoinGecko from 'coingecko-api'
 import axios from 'axios'
 import { 
     EVENT_START,
@@ -10,7 +8,7 @@ import {
     SEARCH_MADE,
     FETCHING_DATA,
     DATA_FETCHED,
-    COMPARED
+    PLAYER_LEFT,
  } from '../types'
 
 const TIME_SPANS = {
@@ -21,9 +19,6 @@ const TIME_SPANS = {
     'Y': {span: 'week', multiplier: 1, max: 4320000000},
     'All': {span: 'week', multiplier: 2, max: 4320000000}
 }
-
-const KEY ="b4XCWhIAVjd82VOpYwXKjL5S3j9epMy6"
-
 
 function getCookie() {
     const value = `; ${document.cookie}`
@@ -128,16 +123,32 @@ function format_portfolio(data: any) {
     return formatted
 }
 
-function add_to_viewed(viewed: any, data: any, username: string) {
+function add_to_viewed_player(viewed: any, data: any, name: string) {
     var formatted = []
 
     for (let i = 0; i < viewed.length; i++) {
         var temp = {...viewed[i]}
         try {
-            temp[username] = data[i].close
+            temp[name] = data[i].close
         }        
         catch (e) {
-            temp[username] = data[data.length - 1].close
+            temp[name] = data[data.length - 1].close
+        }
+        formatted.push(temp)
+    }
+    return formatted
+}
+
+function add_to_viewed_lineup(viewed: any, data: any, name: string, amount: any) {
+    var formatted = []
+
+    for (let i = 0; i < viewed.length; i++) {
+        var temp = {...viewed[i]}
+        try {
+            temp[name] = (data[i].close * amount)
+        }        
+        catch (e) {
+            temp[name] = (data[data.length - 1].close * amount)
         }
         formatted.push(temp)
     }
@@ -182,7 +193,6 @@ export const getMyGames = () => (dispatch: any) => {
         })
 }
 
-
 export const getGame = (code: string) => (dispatch: any) => {
 
     const config: any = getConfig(true)
@@ -203,7 +213,6 @@ export const getGame = (code: string) => (dispatch: any) => {
         })
 }
 
-
 export const join = (code: string, bet: any) => (dispatch: any) => {
 
     const config: any = getConfig(true)
@@ -223,6 +232,24 @@ export const join = (code: string, bet: any) => (dispatch: any) => {
         })
 }
 
+export const leave = (code: string) => (dispatch: any) => {
+
+    const config: any = getConfig(true)
+
+    const body = JSON.stringify({code})
+
+    dispatch({
+        type: EVENT_START
+    })
+
+    axios.post('http://127.0.0.1:8000/game/leave', body, config)
+        .then((res: any) => {
+            dispatch({
+                type: PLAYER_LEFT,
+                payload: res.data.Success
+            })
+        })
+}
 
 export const searchCryptos = (search: string) => (dispatch: any) => {
 
@@ -243,27 +270,21 @@ export const searchCryptos = (search: string) => (dispatch: any) => {
         })
 }
 
-
 export const getData = (selected: any, span: string) => (dispatch: any) => {
     dispatch({
         type: FETCHING_DATA
     })
     const to = getTime()
     const from = fromTime(span)
-    console.log(from)
-    console.log(to)
     const mult = TIME_SPANS[span].multiplier
     span = TIME_SPANS[span].span
-    const poly = restClient('b4XCWhIAVjd82VOpYwXKjL5S3j9epMy6')
     const ticker = selected.ticker
 
     const url = 'https://api.polygon.io/v2/aggs/ticker/' + ticker + '/range/' + mult + '/' + span + '/' + from + '/' + to + '?adjusted=true&sort=asc&limit=50000&apiKey=b4XCWhIAVjd82VOpYwXKjL5S3j9epMy6'
 
     axios.get(url)
         .then((res: any) => {
-            console.log(res)
             var data = format_poly(res.data.results)
-            console.log(data)
             dispatch({
                 type: DATA_FETCHED,
                 payload: {selected, data}
@@ -272,7 +293,6 @@ export const getData = (selected: any, span: string) => (dispatch: any) => {
 
 
 }
-
 
 export const editLineup = (code: string, allocation: number, id: string) => (dispatch: any) => {
 
@@ -293,7 +313,6 @@ export const editLineup = (code: string, allocation: number, id: string) => (dis
         })
 }
 
-
 export const editWager = (code: string, wager: any) => (dispatch: any) => {
 
     const config: any = getConfig(true)
@@ -313,7 +332,7 @@ export const editWager = (code: string, wager: any) => (dispatch: any) => {
         })
 }
 
-export async function compare(username: string, code: string, viewed: any){
+export async function comparePlayer(username: string, code: string, viewed: any){
 
     const config: any = getConfig(true)
     const body = JSON.stringify({username, code})
@@ -321,8 +340,25 @@ export async function compare(username: string, code: string, viewed: any){
 
     const res: any = await axios.post('http://127.0.0.1:8000/game/compare', body, config)
     const portfolio = format_portfolio(res.data[username])
-    new_viewed = add_to_viewed(viewed, portfolio, username)
-    console.log("new Viewed in games actions")
-    console.log(new_viewed)
+    new_viewed = add_to_viewed_player(viewed, portfolio, username)
+
+    return new_viewed 
+}
+
+export async function compareLineup(ticker: any, span: string, viewed: any, amount: Number){
+
+    var new_viewed: any = null
+
+    const to = getTime()
+    const from = fromTime(span)
+    const mult = TIME_SPANS[span].multiplier
+    span = TIME_SPANS[span].span
+
+    const url = 'https://api.polygon.io/v2/aggs/ticker/' + ticker + '/range/' + mult + '/' + span + '/' + from + '/' + to + '?adjusted=true&sort=asc&limit=50000&apiKey=b4XCWhIAVjd82VOpYwXKjL5S3j9epMy6'
+
+    const res: any = await axios.get(url)
+    var data = format_poly(res.data.results)
+    new_viewed = add_to_viewed_lineup(viewed, data, ticker.replace('X:', '').replace('USD', ''), amount)
+
     return new_viewed 
 }

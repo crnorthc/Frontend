@@ -11,7 +11,7 @@ import Lineup from "../../../components/GameComponents/PregameLineup";
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
 import { Router, useRouter } from "next/router"
-import { editWager, getGame, join } from "../../../store/actions/game"
+import { editWager, getGame, join, leave } from "../../../store/actions/game"
 import { notify } from '../../../store/actions/notify'
 import Path from "../../../components/path";
 
@@ -34,6 +34,7 @@ const Game: NextPage = (props: any) => {
         getGame: PropTypes.func.isRequired,
         notify: PropTypes.func.isRequired,
         getBet: PropTypes.func.isRequired,
+        leave: PropTypes.func.isRequired,
         join: PropTypes.func.isRequired,
         player: PropTypes.object,
         game: PropTypes.object,
@@ -49,12 +50,6 @@ const Game: NextPage = (props: any) => {
             }            
         }        
     }, [props.player])
-
-    if (props.game != null) {
-        if (props.game.started) {
-           router.push('/game/' + props.game.code)
-        }
-    }
 
     useEffect(() => {
         if (!router.isReady) return
@@ -91,20 +86,19 @@ const Game: NextPage = (props: any) => {
     const getWager = () => {
         if (props.player.lineup != null) {
             return (
-                <div className="flex flex-col items-center bg-dark border-2 border-primary rounded-md py-4 mt-4">
-                    <div className="flex -mr-2 flex-row items-center">
-                        <h1 className="text-2xl text-light">Wager</h1>
-                        <button onClick={() => wagerEdit(true)} className='flex flex-row p-1 ml-2 rounded-lg hover:bg-lightmedium justify-center items-center '>
-                            <Image width={15} height={15} src='/edit.svg' />
-                        </button> 
-                    </div>                    
-                    <div className="flex px-8 pt-4 flex-row justify-between items-center w-full">
+                <div className="flex flex-col w-full items-center bg-dark border-2 border-primary2 rounded-md py-4 px-8 mt-4">  
+                    <div className="flex px-8 flex-row justify-between items-center w-full">
                         <Image width={50} height={50} src={wagerImage()} />
                         <h1 className="text-xl text-light">{toMoney(props.player.wager.amount)}</h1>
                     </div>
                 </div>                
             )
         }
+    }
+
+    const leaveGame = () => {
+        props.leave(props.game.code)
+        router.push('/dashboard')
     }
     
     if (props.game == null) {
@@ -135,9 +129,8 @@ const Game: NextPage = (props: any) => {
 			</Head>
 
 			<main className='bg-medium text-center h-full'>
-                <Path />
-                <h1 className="text-3xl text-light font-bold pt-20 mb-12">{props.game.name}</h1>
-                <div className="flex flex-row justify-between items-start w-full">
+                <h1 className="text-5xl text-primary glory font-bold mb-8">{props.game.name}</h1>
+                <div className="flex flex-row justify-center items-start w-full">
                     {props.player.lineup == null ? 
                         <Wagers notify={props.notify} game={props.game} player={props.player} edit={edit} setEdit={wagerEdit} join={props.join}/> 
                         : 
@@ -146,11 +139,26 @@ const Game: NextPage = (props: any) => {
                             :
                             <Lineup/>
                     }
-                    <div className="flex flex-col">
-                        <GameInfo game={props.game} join={props.join}/>
+                    <div className="px-2"/>
+                    <div className="flex flex-col w-2/5">
+                        <div className="flex -mr-2 flex-row items-center">
+                            <h1 className="text-2xl text-light">Wager</h1>
+                            <button onClick={() => wagerEdit(true)} className='flex flex-row p-1 ml-2 rounded-lg hover:bg-lightmedium justify-center items-center '>
+                                <Image width={15} height={15} src='/edit.svg' />
+                            </button> 
+                        </div>                  
                         {getWager()}
+                        <div className="py-2"/>
+                        <GameInfo game={props.game} join={props.join}/>                        
                     </div>                    
-                </div>                                                                            
+                </div>  
+                {props.player.cash !== undefined ? 
+                    <div className="flex flex-row w-full justify-end mt-2">
+                        <button onClick={() => leaveGame()} className="py-1 px-4 text-dark rounded-lg bg-red2">Leave</button>
+                    </div>     
+                : 
+                    null
+                }                                                                     
 			</main>
 		</div>
 	)
@@ -162,4 +170,4 @@ const mapStateToProps = (state: any) => ({
     game: state.game.game,
 })
 
-export default connect(mapStateToProps, { editWager, getGame, join, notify })(Game)
+export default connect(mapStateToProps, { editWager, getGame, join, notify, leave })(Game)

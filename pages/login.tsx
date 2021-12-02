@@ -25,7 +25,7 @@ const Login: NextPage = (props: any) => {
  };
 
  if (props.logged_in) {
-  Router.push("/");
+    Router.push("/games");
  }
 
  return (
@@ -39,20 +39,24 @@ const Login: NextPage = (props: any) => {
     <div className='max-w-lg flex-1 flex flex-col items-center justify-center'>
      <div className='bg-medium rounded-2xl px-6 py-4 sm:py-8 shadow-md text-black w-full medium-shadow-big'>
       <h1 className='mb-8 text-4xl text-light text-center glory'>Login</h1>
-      <input
-       type='text'
-       className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
-       value={username}
-       onChange={(e) => setUsername(e.target.value)}
-       placeholder='Username'
-      />
-      <input
-       type='password'
-       className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
-       value={password}
-       onChange={(e) => setPassword(e.target.value)}
-       placeholder='Password'
-      />
+      <form>
+        <input
+        type='text'
+        className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
+        value={username}
+        autoComplete='username'
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder='Username'
+        />
+        <input
+        type='password'
+        className='block border border-grey-light w-full p-3 rounded mb-4 poppins'
+        value={password}
+        autoComplete='password'
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder='Password'
+        />
+      </form>      
       <div className='flex pb-4 sm:pb-8 items-center'>
        <input
         type='checkbox'

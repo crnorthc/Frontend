@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="30.02562mm"
+   height="14.940534mm"
+   viewBox="0 0 30.02562 14.940534"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   sodipodi:docname="pointer.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:zoom="0.39370511"
+     inkscape:cx="104.13886"
+     inkscape:cy="-111.75877"
+     inkscape:window-width="1547"
+     inkscape:window-height="904"
+     inkscape:window-x="1982"
+     inkscape:window-y="47"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-13.440685,-124.12418)">
+    <g
+       id="g5750"
+       transform="matrix(0.31210501,0,0,0.31210501,9.24578,85.384403)">
+      <path
+         style="fill:#00c2ef;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 55.110022,124.28704 c 0.603395,-0.34957 1.056886,-0.0276 1.056886,-0.0276 l 52.248852,22.27064 c 0,0 1.19797,0.54596 1.22797,1.77451 0.03,1.22855 -1.21439,1.78191 -1.21439,1.78191 l -51.63039,21.66331 c 0,0 -0.972349,0.56898 -1.759138,-0.0287 -0.786789,-0.59768 -0.421514,-1.44053 -0.421514,-1.44053 l -0.0753,-45.19827 c 0,0 -0.03637,-0.44573 0.567028,-0.7953 z"
+         id="path919"
+         sodipodi:nodetypes="zcczcczcczz" />
+      <rect
+         style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#00c2ef;fill-opacity:1;fill-rule:evenodd;stroke-width:0.210048;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+         id="rect3870"
+         width="53.930752"
+         height="12.600642"
+         x="13.440685"
+         y="141.75897"
+         ry="0.78781515" />
+    </g>
+  </g>
+</svg>

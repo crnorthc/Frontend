@@ -6,7 +6,9 @@ import {
     
     TEXT_SENT,
     WALLET_INFO,
-    STATS
+    STATS,
+    HISTORY,
+    WATCHING
  } from '../types'
 
 const initialState = {
@@ -15,8 +17,9 @@ const initialState = {
     recent_player: null,
     recent_game: null,
     wallet: null,
-    best: null,
-    worst: null
+    stats: null,
+    history: null,
+    watchlist: null
 }
 
 export default function (state = initialState, action: any) {
@@ -30,6 +33,11 @@ export default function (state = initialState, action: any) {
         return {
             ...state,
             phone: action.payload
+        }
+    case WATCHING:
+        return {
+            ...state,
+            watchlist: action.payload
         }
     case LOGGED_IN:
         return {
@@ -50,8 +58,12 @@ export default function (state = initialState, action: any) {
     case STATS:
         return {
             ...state,
-            best: action.payload.best,
-            worst: action.payload.worst
+            stats: action.payload
+        }
+    case HISTORY:
+        return {
+            ...state,
+            history: action.payload
         }
     default:
         return state

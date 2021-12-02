@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Timer from '../tools/timer'
 
 // State Stuff
 import { connect } from "react-redux"
@@ -21,17 +22,29 @@ const Notify: any = (props: any) => {
     }
 
     useEffect(() => {
+        if (props.notes.length != 0) {
+            var timer = setTimeout(() => {	
+                handleRemove()
+            }, 30000)		
+    
+            return () => {
+                clearTimeout(timer)
+            }
+        }        
+    })
+
+    useEffect(() => {
         var temp = []
         for (const note in props.notes) {
             temp.push(
                 <div className="note absolute w-lg h-sm bg-notify rounded-lg bottom-6 ml-6"> 
                     <div className="w-full flex flex-row justify-end mt-2 pr-2">
-                        <button onClick={() => handleRemove()} className="font-bold text-white w-6 h-6 bg-redHue rounded-full">
-                            &#x2715;
-                        </button>
+                        <button onClick={() => handleRemove()}>
+                            <Timer />
+                        </button>                        
                     </div>
                     <div className="h-full w-full px-8 text-center text-light -mt-8 flex flex-row justify-center items-center">
-                        {props.notes[note]}
+                        {props.notes[note]}                        
                     </div>          
                 </div>
             )
@@ -45,9 +58,9 @@ const Notify: any = (props: any) => {
             temp.push(
                 <div className="note absolute w-lg h-sm bg-notify rounded-lg bottom-6 ml-6"> 
                     <div className="w-full flex flex-row justify-end mt-2 pr-2">
-                        <button onClick={() => handleRemove()} className="font-bold text-white w-6 h-6 bg-redHue rounded-full">
-                            &#x2715;
-                        </button>
+                        <button onClick={() => handleRemove()}>
+                            <Timer />
+                        </button> 
                     </div>
                     <div className="h-full w-full px-8 text-center text-light -mt-8 flex flex-row justify-center items-center">
                         {props.notes[note]}
